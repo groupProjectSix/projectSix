@@ -21,17 +21,17 @@ class QueryWord extends Component {
           sp: `${firstLetter}*`
         }
       }).then((data)=>{
-      console.log(data.data);
+      // console.log(data.data);
       const arrayOfLetterObject = data.data;
       this.setState({
         firstWordArray: arrayOfLetterObject,
       })
       }).then( () => {
         this.state.firstWordArray.map( value => {
-          console.log(value.word);         
+          // console.log(value.word);         
         })
         let randomWordNumber = Math.floor(Math.random() * this.state.firstWordArray.length);
-        console.log(randomWordNumber);
+        // console.log(randomWordNumber);
         const firstWord = (this.state.firstWordArray[randomWordNumber].word);
         console.log(firstWord);
         this.setState({
@@ -46,14 +46,21 @@ class QueryWord extends Component {
       method: "get",
       params: {
         sp: `${nextLetter}*`,
-        max: 100
+        max: 10
       }
+    }).then( (data) => {
+      // this.state.lettersToQuery.map()
+      console.log(data.data)
     })
   }
 
   componentDidMount() {
-    console.log(this.props.spreadLettersProp);
+    // console.log(this.props.spreadLettersProp);
     this.callToApiFirst(this.props.userInputProp, this.props.spreadLettersProp[0]);
+    // this.callToApiSecond(this.props.spreadLettersProp[])
+    for (let i = 1; i < this.props.spreadLettersProp.length; i++){
+      console.log(this.callToApiSecond(this.props.spreadLettersProp[i]));
+    }
   }
 
   render() {

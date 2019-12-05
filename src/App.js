@@ -18,7 +18,7 @@ class App extends Component {
       userInput: event.target.value,
       spreadLetters: [...event.target.value]
     });
-    console.log(this.state.userInput, this.state.spreadLetters);
+    // console.log(this.state.userInput, this.state.spreadLetters);
   }; 
   
   preventDefaultFunction= event =>{
