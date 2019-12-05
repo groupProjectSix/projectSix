@@ -8,6 +8,7 @@ class QueryWord extends Component {
       lettersToQuery: [],
       displayedWords: [],
       firstWordArray: [],
+      firstSelectedWord: "",
     };
   }
 
@@ -22,10 +23,21 @@ class QueryWord extends Component {
       }).then((data)=>{
       console.log(data.data);
       const arrayOfLetterObject = data.data;
-      // this.setState({
-      //   firstWordArray: arrayOfLetterObject,
-      // })
-    }) 
+      this.setState({
+        firstWordArray: arrayOfLetterObject,
+      })
+      }).then( () => {
+        this.state.firstWordArray.map( value => {
+          console.log(value.word);         
+        })
+        let randomWordNumber = Math.floor(Math.random() * this.state.firstWordArray.length);
+        console.log(randomWordNumber);
+        const firstWord = (this.state.firstWordArray[randomWordNumber].word);
+        console.log(firstWord);
+        this.setState({
+          firstSelectedWord: firstWord,
+        });
+      })
   }
 
   callToApiSecond = (nextLetter) => {
@@ -38,21 +50,24 @@ class QueryWord extends Component {
       }
     })
   }
-  componentDidMount(){
+
+  componentDidMount() {
     console.log(this.props.spreadLettersProp);
     this.callToApiFirst(this.props.userInputProp, this.props.spreadLettersProp[0]);
   }
 
   render() {
-    // console.log(this.state.lettersToQuery);
-    // this.callToApiFirst(this.props.userInputProp, this.state.lettersToQuery[0]);
+    // firstWordArray.map( value => {
+    //   console.log(value);
+    // })
     return (
       <React.Fragment>
-        {/* <h2>{this.state.firstWordArray[0].word}</h2> */}
+        {/* {randomWordNumber = Math.floor(Math.random() * this.state.firstWordArray.length)} */}
+        {/* <h3>{this.state.firstWordArray[randomWordNumber].word}</h3> */}
       </React.Fragment>
     )
   }
-}  
+}
 export default QueryWord;
 
 // base url https://api.datamuse.com/words
