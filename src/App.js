@@ -8,15 +8,17 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      userInput: ""
+      userInput: "",
+      spreadLetters: [],
     };
   }
 
   saveUserInput = event => {
     this.setState({
-      userInput: event.target.value
+      userInput: event.target.value,
+      spreadLetters: [...event.target.value]
     });
-    console.log(this.state.userInput);
+    console.log(this.state.userInput, this.state.spreadLetters);
   }; 
   
   preventDefaultFunction= event =>{
@@ -34,12 +36,12 @@ class App extends Component {
             
           <button onClick={this.preventDefaultFunction} type="submit">
             <Link to="/search">
-             Generate Backronym!
+            Generate Backronym!
             </Link> 
           </button>
 
           </form> 
-          <Route exact path="/search" render={()=>{return <QueryWord userInputProp={this.state.userInput} /> }} />
+          <Route exact path="/search" render={()=>{return <QueryWord userInputProp={this.state.userInput} spreadLettersProp={this.state.spreadLetters} /> }} />
         </React.Fragment>
       </Router>
     );

@@ -7,10 +7,11 @@ class QueryWord extends Component {
     this.state = {
       lettersToQuery: [],
       displayedWords: [],
+      firstWordArray: [],
     };
   }
 
-  callToApiFirst = (userWord, firstLetter) =>{
+  callToApiFirst = (userWord, firstLetter) => {
     axios({
       url:`https://api.datamuse.com/words`, 
       method: "get", 
@@ -19,7 +20,11 @@ class QueryWord extends Component {
           sp: `${firstLetter}*`
         }
       }).then((data)=>{
-      console.log(data)
+      console.log(data.data);
+      const arrayOfLetterObject = data.data;
+      // this.setState({
+      //   firstWordArray: arrayOfLetterObject,
+      // })
     }) 
   }
 
@@ -34,20 +39,18 @@ class QueryWord extends Component {
     })
   }
   componentDidMount(){
-    const fackinletters = this.props.userInputProp;
-    const spreadLetters = [...fackinletters];
-    this.setState({
-      lettersToQuery: spreadLetters
-    })
-    console.log(fackinletters)
-    console.log(this.state.lettersToQuery)
-    this.callToApiFirst(this.props.userInputProp, this.state.lettersToQuery[0]);
+    console.log(this.props.spreadLettersProp);
+    this.callToApiFirst(this.props.userInputProp, this.props.spreadLettersProp[0]);
   }
 
   render() {
-    return <React.Fragment>
-
-    </React.Fragment>;
+    // console.log(this.state.lettersToQuery);
+    // this.callToApiFirst(this.props.userInputProp, this.state.lettersToQuery[0]);
+    return (
+      <React.Fragment>
+        {/* <h2>{this.state.firstWordArray[0].word}</h2> */}
+      </React.Fragment>
+    )
   }
 }  
 export default QueryWord;
