@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 // import dbRef from "./firebase";
-import "./App.scss";
+// import "./App.scss";
 import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 import QueryWord from "./QueryWord"
 
@@ -8,7 +8,6 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      // wordArray: [],
       userInput: ""
     };
   }
@@ -19,7 +18,7 @@ class App extends Component {
     });
     console.log(this.state.userInput);
   }; 
-   
+  
   preventDefaultFunction= event =>{
     event.preventDefault();
   }
@@ -34,7 +33,7 @@ class App extends Component {
             {/* setup onClick function for button */}
             
           <button onClick={this.preventDefaultFunction} type="submit">
-            <Link to="search">
+            <Link to="/search">
              Generate Backronym!
             </Link> 
           </button>
