@@ -27,9 +27,22 @@ main {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    
+    background: white;
+    border: 2px solid $accent1;
+    border-radius: 5px;
+    margin: 10px;
+
+
     li {
-        padding: 0 40px;
+        padding: 40px 40px;
     }
+
+    // change the first letter of results to different color
+    // li:first-letter {
+    //     color: red;
+    // }
 }
 
 button {
