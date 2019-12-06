@@ -29,6 +29,14 @@ class App extends Component {
     return (
       <Router>
         <React.Fragment>
+          <header>
+            <h1 className="sr-only">Backronym Generator!</h1>
+            <button onClick={this.preventDefaultFunction}>
+              <Link to="/">
+                Go Backronym!
+              </Link>
+            </button>
+          </header>
           <main className="wrapper">
             <form className="saveInput">
               <span className="sr-only"><label htmlFor="wordInput">Enter a Word!</label></span>
