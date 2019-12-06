@@ -25,13 +25,21 @@ class App extends Component {
     event.preventDefault();
   }
 
+  returnHome= event => {
+    event.preventDefault();
+    document.querySelector("#wordInput").value = "";
+    this.setState({
+      userInput: "",
+    })
+  }
+
   render() {
     return (
       <Router>
         <React.Fragment>
           <header>
             <h1 className="sr-only">Backronym Generator!</h1>
-            <button onClick={this.preventDefaultFunction}>
+            <button onClick={this.returnHome}>
               <Link to="/">
                 Go Backronym!
               </Link>
@@ -40,7 +48,7 @@ class App extends Component {
           <main className="wrapper">
             <form className="saveInput">
               <span className="sr-only"><label htmlFor="wordInput">Enter a Word!</label></span>
-              <input type="text" id="wordInput" onChange={this.saveUserInput} />
+              <input type="text" placeholder="type here" id="wordInput" onChange={this.saveUserInput} />
               {/* setup onClick function for button */}
               
             <button onClick={this.preventDefaultFunction} type="submit">
