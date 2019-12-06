@@ -34,7 +34,7 @@ class QueryWord extends Component {
         let randomWordNumber = Math.floor(Math.random() * this.state.firstWordArray.length);
         // console.log(randomWordNumber);
         const firstWord = (this.state.firstWordArray[randomWordNumber].word);
-        console.log(firstWord);
+        // console.log(firstWord);
         this.setState({
           firstSelectedWord: firstWord,
         });
@@ -60,7 +60,7 @@ class QueryWord extends Component {
     this.callToApiFirst(this.props.userInputProp, this.props.spreadLettersProp[0]);
     // this.callToApiSecond(this.props.spreadLettersProp[])
     for (let i = 1; i < this.props.spreadLettersProp.length; i++){
-      console.log(this.callToApiSecond(this.props.spreadLettersProp[i]));
+      // console.log(this.callToApiSecond(this.props.spreadLettersProp[i]));
     }
   }
 
@@ -73,7 +73,7 @@ class QueryWord extends Component {
         {/* {randomWordNumber = Math.floor(Math.random() * this.state.firstWordArray.length)} */}
         {/* <h3>{this.state.firstWordArray[randomWordNumber].word}</h3> */}
         {this.props.spreadLettersProp.map((letter, index) => {
-          if(index==0) {
+          if(index===0) {
             return(
               <p>{this.state.firstSelectedWord}</p>
             )
