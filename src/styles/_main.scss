@@ -19,28 +19,6 @@ main {
             padding: 10px;
             border-right: 0;
         }
-        button {
-            @include lightSans;
-            width: 20%;
-            background-color: $white;
-            color: $black;
-            border: 2px solid $accent1;
-            border-radius: 5px;
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
-            padding: 10px;
-            a {
-                color: $black;
-                display: block;
-                width: 100%;
-                &:hover {
-                    color: $white;
-                }
-            }
-            &:hover {
-                background-color: $accent1;
-            }
-        }
     }
 }
 
@@ -51,5 +29,28 @@ main {
     align-items: center;
     li {
         padding: 0 40px;
+    }
+}
+
+button {
+    @include lightSans;
+    width: 20%;
+    background-color: $white;
+    color: $black;
+    border: 2px solid $accent1;
+    border-radius: 5px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    padding: 10px;
+    a {
+        color: $black;
+        display: block;
+        width: 100%;
+        &:hover {
+            color: $white;
+        }
+    }
+    &:hover {
+        background-color: $accent1;
     }
 }
