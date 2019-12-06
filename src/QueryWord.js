@@ -39,37 +39,52 @@ class QueryWord extends Component {
         });
       }).then(() => {
         for (let i = 1; i <= this.props.spreadLettersProp.length - 1; i++) {
-          this.callToApiSecond(this.props.spreadLettersProp[i]);
+          this.callToApiSecond(this.state.firstSelectedWord, this.props.spreadLettersProp[i]);
         }
       })
   }
 
-  callToApiSecond = (nextLetter) => {
+  callToApiSecond = (prevWord, thisLetter) => {
     axios ({
       url: `https://api.datamuse.com/words`,
       method: "get",
       params: {
-        sp: `${nextLetter}*`,
+        rel_bga: `${prevWord}`,
+        sp: `${thisLetter}*`,
         max: 100
       }
     }).then((data) => {
-      const newWordArray = [];
-      data.data.map((wordObject) => {
-        newWordArray.push(wordObject.word)
-      })
-      const ongoingWordArray = [...this.state.restOfWordsArray];
-      ongoingWordArray.push(newWordArray)
-      this.setState({
-        restOfWordsArray: ongoingWordArray
-      });
-      let finalWord = [];
-      finalWord = [...this.state.finalWord];
-      finalWord.push(newWordArray[this.generateRandomNumber(newWordArray)]);
-      this.setState({
-        finalWord: finalWord,
-      })
+      if (data.data.length !== 0) {
+        const newWordArray = [];
+        data.data.map((wordObject) => {
+          newWordArray.push(wordObject.word)
+        })
+        const ongoingWordArray = [...this.state.restOfWordsArray];
+        ongoingWordArray.push(newWordArray)
+        this.setState({
+          restOfWordsArray: ongoingWordArray
+        });
+        let finalWord = [];
+        finalWord = [...this.state.finalWord];
+        finalWord.push(newWordArray[this.generateRandomNumber(newWordArray)]);
+        this.setState({
+          finalWord: finalWord,
+        })
+      } else {
+        this.callToApiRandomWord(thisLetter)
+      }
     })
-    }
+  }
+
+  callToApiRandomWord = (letter) => {
+    axios({
+      url: `https://api.datamuse.com/words`,
+      method: 'get',
+      params: {
+        sp: `${letter}*`
+      }
+    })
+  }
 
 
   componentDidMount() {
@@ -86,20 +101,10 @@ class QueryWord extends Component {
               <li key={index}>
                 <p>{this.state.firstSelectedWord}</p>
               </li>
-            )
-          } else {
-            this.state.restOfWordsArray.map((wordArray, index) => {
-              return (
-                <li key={index}>
-                  <p>{wordArray[this.generateRandomNumber(wordArray)]}</p>
-                </li>
-              )
-            })
-          }
+            )}
         })}
 
-        {
-          this.state.finalWord.map( (word, index) => {
+        {this.state.finalWord.map( (word, index) => {
             return(
               <li key={index}>
                 {word}
