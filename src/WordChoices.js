@@ -46,9 +46,7 @@ class WordChoices extends Component {
 
   render(){
     return (
-      <div className="wordOption">
-        <p>{this.state.displayWord}</p>
-      </div>
+        <span>{this.state.displayWord}</span>
     )
   }
 }
