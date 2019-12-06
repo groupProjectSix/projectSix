@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import firebase from "./firebase"
 
 class QueryWord extends Component {
   constructor() {
@@ -14,6 +15,14 @@ class QueryWord extends Component {
     };
   }
 
+  handleFirebaseSubmit =() => { 
+    const dbRef = firebase.database().ref(); 
+    const submittedWords = (this.state.firstSelectedWord+',').concat(this.state.finalWord)
+    dbRef.push({
+      submittedWords: submittedWords
+  }); 
+
+}   
   generateRandomNumber = (array) => {
     return(Math.floor(Math.random() * array.length))
   }
@@ -112,7 +121,8 @@ class QueryWord extends Component {
             )
           })
         }
-        </ul>
+        </ul> 
+        <button type="submit" onClick={this.handleFirebaseSubmit}>Submit your word</button>
       </React.Fragment>
     )
   }
