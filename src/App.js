@@ -31,13 +31,13 @@ class App extends Component {
         <React.Fragment>
           <main>
             <form className="saveInput">
-              <label htmlFor="wordInput">Enter a Word!</label>
+              <span className="sr-only"><label htmlFor="wordInput">Enter a Word!</label></span>
               <input type="text" id="wordInput" onChange={this.saveUserInput} />
               {/* setup onClick function for button */}
               
             <button onClick={this.preventDefaultFunction} type="submit">
               <Link to="/search">
-              Generate Backronym!
+              Go!
               </Link> 
             </button>
 

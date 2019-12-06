@@ -75,11 +75,15 @@ class QueryWord extends Component {
         {this.props.spreadLettersProp.map((letter, index) => {
           if(index===0) {
             return(
-              <p>{this.state.firstSelectedWord}</p>
+              <li key={index}>
+                <p>{this.state.firstSelectedWord}</p>
+              </li>
             )
           } else {
             return (
-              <WordChoices letter={this.props.spreadLettersProp[index]}/>
+              <li key={index}>
+                <WordChoices letter={this.props.spreadLettersProp[index]}/>
+              </li>
             )
           }
         })}
