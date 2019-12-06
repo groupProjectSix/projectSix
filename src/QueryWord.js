@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import axios from "axios";
-import WordChoices from './WordChoices'
 
 class QueryWord extends Component {
   constructor() {
@@ -11,6 +10,7 @@ class QueryWord extends Component {
       firstWordArray: [],
       firstSelectedWord: "",
       restOfWordsArray: [],
+      finalWord: [],
     };
   }
 
@@ -61,9 +61,16 @@ class QueryWord extends Component {
       ongoingWordArray.push(newWordArray)
       this.setState({
         restOfWordsArray: ongoingWordArray
+      });
+      let finalWord = [];
+      finalWord = [...this.state.finalWord];
+      finalWord.push(newWordArray[this.generateRandomNumber(newWordArray)]);
+      this.setState({
+        finalWord: finalWord,
       })
     })
-  }
+    }
+
 
   componentDidMount() {
     this.callToApiFirst(this.props.userInputProp, this.props.spreadLettersProp[0]);
@@ -81,7 +88,7 @@ class QueryWord extends Component {
               </li>
             )
           } else {
-            this.state.restOfWordsArray.map((wordArray, key) => {
+            this.state.restOfWordsArray.map((wordArray, index) => {
               return (
                 <li key={index}>
                   <p>{wordArray[this.generateRandomNumber(wordArray)]}</p>
@@ -90,6 +97,16 @@ class QueryWord extends Component {
             })
           }
         })}
+
+        {
+          this.state.finalWord.map( (word, index) => {
+            return(
+              <li key={index}>
+                {word}
+              </li>
+            )
+          })
+        }
         </ul>
       </React.Fragment>
     )
