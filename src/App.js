@@ -29,7 +29,7 @@ class App extends Component {
     return (
       <Router>
         <React.Fragment>
-          <main>
+          <main className="wrapper">
             <form className="saveInput">
               <span className="sr-only"><label htmlFor="wordInput">Enter a Word!</label></span>
               <input type="text" id="wordInput" onChange={this.saveUserInput} />
@@ -37,7 +37,7 @@ class App extends Component {
               
             <button onClick={this.preventDefaultFunction} type="submit">
               <Link to="/search">
-              Go!
+              Go
               </Link> 
             </button>
 

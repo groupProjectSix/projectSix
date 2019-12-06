@@ -70,6 +70,7 @@ class QueryWord extends Component {
     // })
     return (
       <React.Fragment>
+        <ul className="wordChoicesList wrapper">
         {/* {randomWordNumber = Math.floor(Math.random() * this.state.firstWordArray.length)} */}
         {/* <h3>{this.state.firstWordArray[randomWordNumber].word}</h3> */}
         {this.props.spreadLettersProp.map((letter, index) => {
@@ -87,6 +88,7 @@ class QueryWord extends Component {
             )
           }
         })}
+        </ul>
       </React.Fragment>
     )
   }
