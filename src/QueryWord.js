@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import WordChoices from './WordChoices'
 
 class QueryWord extends Component {
   constructor() {
@@ -71,6 +72,17 @@ class QueryWord extends Component {
       <React.Fragment>
         {/* {randomWordNumber = Math.floor(Math.random() * this.state.firstWordArray.length)} */}
         {/* <h3>{this.state.firstWordArray[randomWordNumber].word}</h3> */}
+        {this.props.spreadLettersProp.map((letter, index) => {
+          if(index==0) {
+            return(
+              <p>{this.state.firstSelectedWord}</p>
+            )
+          } else {
+            return (
+              <WordChoices letter={this.props.spreadLettersProp[index]}/>
+            )
+          }
+        })}
       </React.Fragment>
     )
   }
