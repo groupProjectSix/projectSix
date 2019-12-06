@@ -10,7 +10,12 @@ class QueryWord extends Component {
       displayedWords: [],
       firstWordArray: [],
       firstSelectedWord: "",
+      restOfWordsArray: [],
     };
+  }
+
+  generateRandomNumber = (array) => {
+    return(Math.floor(Math.random() * array.length))
   }
 
   callToApiFirst = (userWord, firstLetter) => {
@@ -22,22 +27,20 @@ class QueryWord extends Component {
           sp: `${firstLetter}*`
         }
       }).then((data)=>{
-      // console.log(data.data);
-      const arrayOfLetterObject = data.data;
-      this.setState({
-        firstWordArray: arrayOfLetterObject,
-      })
-      }).then( () => {
-        this.state.firstWordArray.map( value => {
-          // console.log(value.word);         
+        const arrayOfLetterObject = data.data;
+        this.setState({
+          firstWordArray: arrayOfLetterObject,
         })
-        let randomWordNumber = Math.floor(Math.random() * this.state.firstWordArray.length);
-        // console.log(randomWordNumber);
+      }).then( () => {
+        let randomWordNumber = this.generateRandomNumber(this.state.firstWordArray);
         const firstWord = (this.state.firstWordArray[randomWordNumber].word);
-        // console.log(firstWord);
         this.setState({
           firstSelectedWord: firstWord,
         });
+      }).then(() => {
+        for (let i = 1; i <= this.props.spreadLettersProp.length - 1; i++) {
+          this.callToApiSecond(this.props.spreadLettersProp[i]);
+        }
       })
   }
 
@@ -47,32 +50,29 @@ class QueryWord extends Component {
       method: "get",
       params: {
         sp: `${nextLetter}*`,
-        max: 10
+        max: 100
       }
-    }).then( (data) => {
-      // this.state.lettersToQuery.map()
-      console.log(data.data)
+    }).then((data) => {
+      const newWordArray = [];
+      data.data.map((wordObject) => {
+        newWordArray.push(wordObject.word)
+      })
+      const ongoingWordArray = [...this.state.restOfWordsArray];
+      ongoingWordArray.push(newWordArray)
+      this.setState({
+        restOfWordsArray: ongoingWordArray
+      })
     })
   }
 
   componentDidMount() {
-    // console.log(this.props.spreadLettersProp);
     this.callToApiFirst(this.props.userInputProp, this.props.spreadLettersProp[0]);
-    // this.callToApiSecond(this.props.spreadLettersProp[])
-    for (let i = 1; i < this.props.spreadLettersProp.length; i++){
-      // console.log(this.callToApiSecond(this.props.spreadLettersProp[i]));
-    }
   }
 
   render() {
-    // firstWordArray.map( value => {
-    //   console.log(value);
-    // })
     return (
       <React.Fragment>
         <ul className="wordChoicesList wrapper">
-        {/* {randomWordNumber = Math.floor(Math.random() * this.state.firstWordArray.length)} */}
-        {/* <h3>{this.state.firstWordArray[randomWordNumber].word}</h3> */}
         {this.props.spreadLettersProp.map((letter, index) => {
           if(index===0) {
             return(
@@ -81,11 +81,13 @@ class QueryWord extends Component {
               </li>
             )
           } else {
-            return (
-              <li key={index}>
-                <WordChoices letter={this.props.spreadLettersProp[index]}/>
-              </li>
-            )
+            this.state.restOfWordsArray.map((wordArray, key) => {
+              return (
+                <li key={index}>
+                  <p>{wordArray[this.generateRandomNumber(wordArray)]}</p>
+                </li>
+              )
+            })
           }
         })}
         </ul>
