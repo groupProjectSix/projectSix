@@ -10,7 +10,7 @@ class QueryWord extends Component {
       displayedWords: [],
       firstWordArray: [],
       firstSelectedWord: "",
-      restOfWordsArray: [],
+      wordListArray: [],
       finalWord: [],
     };
   }
@@ -36,21 +36,27 @@ class QueryWord extends Component {
           sp: `${firstLetter}*`
         }
       }).then((data)=>{
-        const arrayOfLetterObject = data.data;
+        const newWordArray = [];
+        data.data.map((wordObject) => {
+          newWordArray.push(wordObject.word)
+        });
+        const ongoingWordArray = [...this.state.wordListArray];
+        ongoingWordArray.push(newWordArray);
         this.setState({
-          firstWordArray: arrayOfLetterObject,
-        })
+          wordListArray: ongoingWordArray
+        });
       }).then( () => {
-        let randomWordNumber = this.generateRandomNumber(this.state.firstWordArray);
-        const firstWord = (this.state.firstWordArray[randomWordNumber].word);
+        let randomWordNumber = this.generateRandomNumber(this.state.wordListArray[0]);
+        const firstWord = (this.state.wordListArray[0][randomWordNumber]);
         this.setState({
           firstSelectedWord: firstWord,
         });
-      }).then(() => {
-        for (let i = 1; i <= this.props.spreadLettersProp.length - 1; i++) {
-          this.callToApiSecond(this.state.firstSelectedWord, this.props.spreadLettersProp[i]);
-        }
       })
+      // .then(() => {
+      //   for (let i = 1; i <= this.props.spreadLettersProp.length; i++) {
+      //     this.callToApiSecond(this.state.firstSelectedWord, this.props.spreadLettersProp[i]);
+      //   }
+      // })
   }
 
   callToApiSecond = (prevWord, thisLetter) => {
@@ -68,10 +74,10 @@ class QueryWord extends Component {
         data.data.map((wordObject) => {
           newWordArray.push(wordObject.word)
         })
-        const ongoingWordArray = [...this.state.restOfWordsArray];
+        const ongoingWordArray = [...this.state.wordListArray];
         ongoingWordArray.push(newWordArray)
         this.setState({
-          restOfWordsArray: ongoingWordArray
+          wordListArray: ongoingWordArray
         });
         let finalWord = [];
         finalWord = [...this.state.finalWord];
@@ -95,12 +101,17 @@ class QueryWord extends Component {
     })
   }
 
-
-  componentDidMount() {
-    this.callToApiFirst(this.props.userInputProp, this.props.spreadLettersProp[0]);
-  }
+  // componentDidMount() {
+  //   this.callToApiFirst(this.props.userInputProp, this.props.spreadLettersProp[0]);
+  // }
 
   render() {
+    if (this.state.firstSelectedWord = "") {
+      this.callToApiFirst(this.props.userInputProp, this.props.spreadLettersProp[0])
+    } else if (this.state.finalWord.length < this.props.spreadLettersProp.length) {
+      const num = this.state.finalWord.length;
+      this.callToApiSecond(this.state.firstSelectedWord, this.props.spreadLettersProp[num])
+    }
     return (
       <React.Fragment>
         <ul className="wordChoicesList wrapper">
