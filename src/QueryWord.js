@@ -46,19 +46,17 @@ class QueryWord extends Component {
         });
       }).then(() => {
         for (let i = 1; i <= this.props.spreadLettersProp.length - 1; i++) {
-          let previousWordIndex = i - 1;
-          this.callToApiSecond(this.props.spreadLettersProp[i], previousWordIndex);
+          this.callToApiSecond(this.props.spreadLettersProp[i]);
         }
       })
   }
 
-  callToApiSecond = (nextLetter, previousWordIndex) => {
-    if (previousWordIndex === 0) {
+  callToApiSecond = (nextLetter) => {
       axios ({
         url: `https://api.datamuse.com/words`,
         method: "get",
         params: {
-          lc: `${this.state.firstSelectedWord}`,
+          // lc: `${this.state.firstSelectedWord}`,
           sp: `${nextLetter}*`,
           max: 100
         }
@@ -77,38 +75,10 @@ class QueryWord extends Component {
         finalWord.push(newWordArray[this.generateRandomNumber(newWordArray)]);
         this.setState({
           finalWord: finalWord,
-        })
+        });
       })
       // words that often follow "drink" in a sentence, that start with the letter w 	/words?lc=drink&sp=w*
-    } else if (previousWordIndex > 0) {
-      axios ({
-        url: `https://api.datamuse.com/words`,
-        method: "get",
-        params: {
-          lc: `${this.state.finalWord[previousWordIndex]}`,
-          sp: `${nextLetter}*`,
-          max: 100
-        }
-      }).then((data) => {
-        const newWordArray = [];
-        data.data.map((wordObject) => {
-          newWordArray.push(wordObject.word)
-        })
-        const ongoingWordArray = [...this.state.restOfWordsArray];
-        ongoingWordArray.push(newWordArray)
-        this.setState({
-          restOfWordsArray: ongoingWordArray
-        });
-        let finalWord = [];
-        finalWord = [...this.state.finalWord];
-        finalWord.push(newWordArray[this.generateRandomNumber(newWordArray)]);
-        this.setState({
-          finalWord: finalWord,
-        })
-      })
     }
-  }
-
 
   componentDidMount() {
     this.callToApiFirst(this.props.userInputProp, this.props.spreadLettersProp[0]);
