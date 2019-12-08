@@ -17,12 +17,10 @@ class QueryWord extends Component {
 
   handleFirebaseSubmit =() => { 
     const dbRef = firebase.database().ref(); 
-    const submittedWords = (this.state.firstSelectedWord+',').concat(this.state.finalWord)
-    dbRef.push({
-      submittedWords: submittedWords
-  }); 
+    const submittedWords = (this.state.firstSelectedWord).concat(" " + this.state.finalWord);
+    dbRef.push(submittedWords);
+  }
 
-}   
   generateRandomNumber = (array) => {
     return(Math.floor(Math.random() * array.length))
   }
@@ -48,37 +46,68 @@ class QueryWord extends Component {
         });
       }).then(() => {
         for (let i = 1; i <= this.props.spreadLettersProp.length - 1; i++) {
-          this.callToApiSecond(this.props.spreadLettersProp[i]);
+          let previousWordIndex = i - 1;
+          this.callToApiSecond(this.props.spreadLettersProp[i], previousWordIndex);
         }
       })
   }
 
-  callToApiSecond = (nextLetter) => {
-    axios ({
-      url: `https://api.datamuse.com/words`,
-      method: "get",
-      params: {
-        sp: `${nextLetter}*`,
-        max: 100
-      }
-    }).then((data) => {
-      const newWordArray = [];
-      data.data.map((wordObject) => {
-        newWordArray.push(wordObject.word)
+  callToApiSecond = (nextLetter, previousWordIndex) => {
+    if (previousWordIndex === 0) {
+      axios ({
+        url: `https://api.datamuse.com/words`,
+        method: "get",
+        params: {
+          lc: `${this.state.firstSelectedWord}`,
+          sp: `${nextLetter}*`,
+          max: 100
+        }
+      }).then((data) => {
+        const newWordArray = [];
+        data.data.map((wordObject) => {
+          newWordArray.push(wordObject.word)
+        })
+        const ongoingWordArray = [...this.state.restOfWordsArray];
+        ongoingWordArray.push(newWordArray)
+        this.setState({
+          restOfWordsArray: ongoingWordArray
+        });
+        let finalWord = [];
+        finalWord = [...this.state.finalWord];
+        finalWord.push(newWordArray[this.generateRandomNumber(newWordArray)]);
+        this.setState({
+          finalWord: finalWord,
+        })
       })
-      const ongoingWordArray = [...this.state.restOfWordsArray];
-      ongoingWordArray.push(newWordArray)
-      this.setState({
-        restOfWordsArray: ongoingWordArray
-      });
-      let finalWord = [];
-      finalWord = [...this.state.finalWord];
-      finalWord.push(newWordArray[this.generateRandomNumber(newWordArray)]);
-      this.setState({
-        finalWord: finalWord,
+      // words that often follow "drink" in a sentence, that start with the letter w 	/words?lc=drink&sp=w*
+    } else if (previousWordIndex > 0) {
+      axios ({
+        url: `https://api.datamuse.com/words`,
+        method: "get",
+        params: {
+          lc: `${this.state.finalWord[previousWordIndex]}`,
+          sp: `${nextLetter}*`,
+          max: 100
+        }
+      }).then((data) => {
+        const newWordArray = [];
+        data.data.map((wordObject) => {
+          newWordArray.push(wordObject.word)
+        })
+        const ongoingWordArray = [...this.state.restOfWordsArray];
+        ongoingWordArray.push(newWordArray)
+        this.setState({
+          restOfWordsArray: ongoingWordArray
+        });
+        let finalWord = [];
+        finalWord = [...this.state.finalWord];
+        finalWord.push(newWordArray[this.generateRandomNumber(newWordArray)]);
+        this.setState({
+          finalWord: finalWord,
+        })
       })
-    })
     }
+  }
 
 
   componentDidMount() {
@@ -89,8 +118,8 @@ class QueryWord extends Component {
     return (
       <React.Fragment>
         <ul className="wordChoicesList wrapper">
-        {this.props.spreadLettersProp.map((letter, index) => {
-          if(index===0) {
+        {this.props.spreadLettersProp.map( (letter, index) => {
+          if (index === 0) {
             return(
               <li key={index}>
                 <p>{this.state.firstSelectedWord}</p>
