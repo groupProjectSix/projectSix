@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import firebase from "./firebase";
 import "./App.scss";
 import { BrowserRouter as Router, Link, Route } from "react-router-dom";
-import QueryWord from "./QueryWord"
+import Main from "./Main";
+import QueryWord from "./QueryWord";
 
 class App extends Component {
   constructor() {
@@ -10,69 +11,74 @@ class App extends Component {
     this.state = {
       userInput: "",
       spreadLetters: [],
+      showBackButton: false,
     };
   }
 
-  saveUserInput = event => {
+  displayButton = () => {
     this.setState({
-      userInput: event.target.value,
-      spreadLetters: [...event.target.value]
-    });
-  }; 
-  
-  preventDefaultFunction = event =>{
-    event.preventDefault();
+      showBackButton: true,
+    })
   }
 
   returnHome = (event) => {
     event.preventDefault();
-    document.querySelector("#wordInput").value = "";
     this.setState({
       userInput: "",
     })
-  }
 
+    this.setState({
+      showBackButton: false,
+    })
+  }
 
   // pull firebase data and add it to the console
   pullFirebase = () => {
     const dbRef = firebase.database().ref(); 
-
     dbRef.on('value', snapshot => {
       const data = snapshot.val();
-
       console.log(data);
     });
+
+    this.setState({
+      showBackButton: true,
+    })
   }
 
+  QueryWordResults = (wordToQuery) => {
+    this.setState({
+      userInput: wordToQuery,
+    })
+  }
+
+  lettersToBeSpread = () => {
+    this.setState({
+      spreadLetters: [...this.state.userInput],
+    })
+  }
 
   render() {
     return (
       <Router>
         <React.Fragment>
           <header>
-            <h1 className="sr-only">Backronym Generator!</h1>
-            <button onClick={this.returnHome}>
+            <h1>Backronym Generator!</h1>
+            {this.state.showBackButton ? <button onClick={this.returnHome}>
               <Link to="/">
                 Go Backronym!
               </Link>
+            </button>: null}
+            
+            <button onClick={this.pullFirebase}> 
+              <Link to="/SavedBackronym">
+                wall of literacy fame
+              </Link>
             </button>
-            <button onClick={this.pullFirebase}>firebase</button>
           </header>
-          <main className="wrapper">
-            <form className="saveInput">
-              <span className="sr-only"><label htmlFor="wordInput">Enter a Word!</label></span>
-              <input type="text" placeholder="type here" id="wordInput" maxLength="8" minLength="4" onChange={this.saveUserInput} />
-              {/* setup onClick function for button */}
-              
-            <button onClick={this.preventDefaultFunction} type="submit">
-              <Link to="/search">
-              Go
-              </Link> 
-            </button>
+          <Route exact path="/" render={() => { return <Main displayButtonProp={this.displayButton} lettersToBeSpreadProp={this.lettersToBeSpread} QueryWordResultsProp={this.QueryWordResults}/>}} />
 
-            </form> 
-            <Route exact path="/search" render={()=>{return <QueryWord userInputProp={this.state.userInput} spreadLettersProp={this.state.spreadLetters} /> }} />
-          </main>
+          <Route exact path="/search" render={() => { return <QueryWord userInputProp={this.state.userInput} spreadLettersProp={this.state.spreadLetters} /> }} />
+
         </React.Fragment>
       </Router>
     );
