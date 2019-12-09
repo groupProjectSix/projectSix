@@ -14,10 +14,10 @@ class QueryWord extends Component {
       finalWord: [],
     };
   }
-
+// sends the final word up to firebase, each individual word/object makes an array
   handleFirebaseSubmit =() => { 
     const dbRef = firebase.database().ref(); 
-    const submittedWords = (this.state.firstSelectedWord).concat(" " + this.state.finalWord);
+    const submittedWords =  this.state.finalWord;
     dbRef.push(submittedWords);
   }
 
