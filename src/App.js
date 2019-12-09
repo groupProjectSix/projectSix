@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import firebase from "./firebase";
+// import firebase from "./firebase";
 import "./App.scss";
 import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 import Main from "./Main";
 import QueryWord from "./QueryWord";
+import SavedBackronym from "./SavedBackronym";
 
 class App extends Component {
   constructor() {
@@ -32,19 +33,6 @@ class App extends Component {
     })
   }
 
-  // pull firebase data and add it to the console
-  pullFirebase = () => {
-    const dbRef = firebase.database().ref(); 
-    dbRef.on('value', snapshot => {
-      const data = snapshot.val();
-      console.log(data);
-    });
-
-    this.setState({
-      showBackButton: true,
-    })
-  }
-
   QueryWordResults = (wordToQuery) => {
     this.setState({
       userInput: wordToQuery,
@@ -54,6 +42,12 @@ class App extends Component {
   lettersToBeSpread = () => {
     this.setState({
       spreadLetters: [...this.state.userInput],
+    })
+  }
+
+  showButton= () => {
+    this.setState({
+      showBackButton: true,
     })
   }
 
@@ -69,7 +63,7 @@ class App extends Component {
               </Link>
             </button>: null}
             
-            <button onClick={this.pullFirebase}> 
+            <button onClick={this.showButton}> 
               <Link to="/SavedBackronym">
                 wall of literacy fame
               </Link>
@@ -78,6 +72,8 @@ class App extends Component {
           <Route exact path="/" render={() => { return <Main displayButtonProp={this.displayButton} lettersToBeSpreadProp={this.lettersToBeSpread} QueryWordResultsProp={this.QueryWordResults}/>}} />
 
           <Route exact path="/search" render={() => { return <QueryWord userInputProp={this.state.userInput} spreadLettersProp={this.state.spreadLetters} /> }} />
+
+          <Route exact path="/SavedBackronym" component={SavedBackronym} />
 
         </React.Fragment>
       </Router>
