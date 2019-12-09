@@ -43,32 +43,57 @@ class QueryWord extends Component {
       }).then( () => {
         let randomWordNumber = this.generateRandomNumber(this.state.firstWordArray);
         const firstWord = (this.state.firstWordArray[randomWordNumber].word);
+        const arrayForFirstWord = [];
+        arrayForFirstWord.push(firstWord)
         this.setState({
           firstSelectedWord: firstWord,
+          finalWord: arrayForFirstWord
         });
       }).then(() => {
+        let lastLetter = false;
         for (let i = 1; i <= this.props.spreadLettersProp.length - 1; i++) {
           if (i === this.props.spreadLettersProp.length - 1) {
-            this.callToApiSecond(this.props.spreadLettersProp[i], true);
-          } else {
-            this.callToApiSecond(this.props.spreadLettersProp[i], false);
+            lastLetter = true;
           }
+          this.callToApiSecond(this.props.spreadLettersProp[i], this.state.finalWord[i], lastLetter);
         }
       })
   }
 
-  callToApiSecond = (nextLetter, isItWordFinal) => {
+  callToApiSecond = (nextLetter, prevWord, isItWordFinal) => {
       axios ({
         url: `https://api.datamuse.com/words`,
         method: "get",
         params: {
-          // lc: `${this.state.firstSelectedWord}`,
+          lc: `${prevWord}`,
+          sp: `${nextLetter}*`,
+          md: "p"
+        }
+      }).then((data) => {
+        if (data.data.length < 2) {
+          this.randomWordApiCall(nextLetter, isItWordFinal);
+        } else {
+          this.handleApiData(data, isItWordFinal);
+        }
+      })
+    }
+
+    randomWordApiCall = (nextLetter, isItWordFinal) => {
+      axios ({
+        url: `https://api.datamuse.com/words`,
+        method: "get",
+        params: {
           sp: `${nextLetter}*`,
           max: 100,
           md: "p"
         }
       }).then((data) => {
-        console.log(data);
+        this.handleApiData(data, isItWordFinal);
+      })
+    }
+
+    handleApiData = (data, isItWordFinal) => {
+      console.log(data);
         const newWordArray = [];
         data.data.map((wordObject) => {
           newWordArray.push(wordObject)
@@ -81,19 +106,21 @@ class QueryWord extends Component {
         let finalWord = [];
         let isItANoun = false;
         let actualStringToPush = "";
-        let fillerWord = "";
+        const fillerWord = ["of", "and"];
+        const randomFillerWord = this.generateRandomNumber(fillerWord);
+        console.log(fillerWord, randomFillerWord)
         finalWord = [...this.state.finalWord];
         const wordToPush = newWordArray[this.generateRandomNumber(newWordArray)]
-        if (isItWordFinal) { //check if it's word final letter BECAUSE
+        if (isItWordFinal) { //check if it's word final letter to avoid 'of'
           finalWord.push(newWordArray[this.generateRandomNumber(newWordArray)].word)
-        } else {
+        } else { //otherwise throw 'of' on the end!
           for (let i = 0; i <= wordToPush.tags.length; i++) {
             if (wordToPush.tags[i] === "n") {
               isItANoun = true;
             }
           }
           if (isItANoun) {
-            actualStringToPush = `${wordToPush.word} of`
+            actualStringToPush = `${wordToPush.word} ${fillerWord[randomFillerWord]}`
           } else {
             actualStringToPush = `${wordToPush.word}`
           }
@@ -101,9 +128,7 @@ class QueryWord extends Component {
         }
         this.setState({
           finalWord: finalWord,
-        });          
-      })
-      // words that often follow "drink" in a sentence, that start with the letter w 	/words?lc=drink&sp=w*
+        });
     }
 
   componentDidMount() {
@@ -114,7 +139,7 @@ class QueryWord extends Component {
     return (
       <React.Fragment>
         <ul className="wordChoicesList wrapper">
-        {this.props.spreadLettersProp.map( (letter, index) => {
+        {/* {this.props.spreadLettersProp.map( (letter, index) => {
           if (index === 0) {
             return(
               <li key={index}>
@@ -130,7 +155,7 @@ class QueryWord extends Component {
               )
             })
           }
-        })}
+        })} */}
 
         {
           this.state.finalWord.map( (word, index) => {
