@@ -105,7 +105,6 @@ class QueryWord extends Component {
             })
           }
         })}
-
         {
           this.state.finalWord.map( (word, index) => {
             return(
