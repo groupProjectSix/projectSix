@@ -138,36 +138,27 @@ class QueryWord extends Component {
   render() {
     return (
       <React.Fragment>
-        <ul className="wordChoicesList wrapper">
-        {/* {this.props.spreadLettersProp.map( (letter, index) => {
-          if (index === 0) {
-            return(
-              <li key={index}>
-                <p>{this.state.firstSelectedWord}</p>
-              </li>
-            )
-          } else {
-            this.state.restOfWordsArray.map((wordArray, index) => {
-              return (
+        <section className="wordListContainer wrapper">
+        <h2>You searched the word:</h2>
+        <h3>Word</h3>
+        <h2>Which <em>clearly</em> stands for:</h2>
+
+        <ul className="wordChoicesList">
+          {
+            this.state.finalWord.map( (word, index) => {
+              return(
                 <li key={index}>
-                  <p>{wordArray[this.generateRandomNumber(wordArray)]}</p>
+                  {word}
                 </li>
               )
             })
           }
-        })} */}
-
-        {
-          this.state.finalWord.map( (word, index) => {
-            return(
-              <li key={index}>
-                {word}
-              </li>
-            )
-          })
-        }
-        </ul> 
-        <button type="submit" onClick={this.handleFirebaseSubmit}>Submit your word</button>
+          </ul>
+          <div class="queryWordsHandlingButton">
+            <button className="tryAnotherButton">Try another</button>
+            <button type="submit" className="submitWordButton" onClick={this.handleFirebaseSubmit}>Submit your word</button>
+          </div>
+        </section>
       </React.Fragment>
     )
   }
