@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-// import dbRef from "./firebase";
+import firebase from "./firebase";
 import "./App.scss";
 import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 import QueryWord from "./QueryWord"
@@ -18,20 +18,32 @@ class App extends Component {
       userInput: event.target.value,
       spreadLetters: [...event.target.value]
     });
-    // console.log(this.state.userInput, this.state.spreadLetters);
   }; 
   
-  preventDefaultFunction= event =>{
+  preventDefaultFunction = event =>{
     event.preventDefault();
   }
 
-  returnHome= event => {
+  returnHome = (event) => {
     event.preventDefault();
     document.querySelector("#wordInput").value = "";
     this.setState({
       userInput: "",
     })
   }
+
+
+  // pull firebase data and add it to the console
+  pullFirebase = () => {
+    const dbRef = firebase.database().ref(); 
+
+    dbRef.on('value', snapshot => {
+      const data = snapshot.val();
+
+      console.log(data);
+    });
+  }
+
 
   render() {
     return (
@@ -44,6 +56,7 @@ class App extends Component {
                 Go Backronym!
               </Link>
             </button>
+            <button onClick={this.pullFirebase}>firebase</button>
           </header>
           <main className="wrapper">
             <form className="saveInput">
