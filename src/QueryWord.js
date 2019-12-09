@@ -31,9 +31,11 @@ class QueryWord extends Component {
       method: "get", 
       params:{ 
           ml:`${userWord}`,
-          sp: `${firstLetter}*`
+          sp: `${firstLetter}*`,
+          md: "p"
         }
       }).then((data)=>{
+        console.log(data)
         const arrayOfLetterObject = data.data;
         this.setState({
           firstWordArray: arrayOfLetterObject,
@@ -46,24 +48,30 @@ class QueryWord extends Component {
         });
       }).then(() => {
         for (let i = 1; i <= this.props.spreadLettersProp.length - 1; i++) {
-          this.callToApiSecond(this.props.spreadLettersProp[i]);
+          if (i === this.props.spreadLettersProp.length - 1) {
+            this.callToApiSecond(this.props.spreadLettersProp[i], true);
+          } else {
+            this.callToApiSecond(this.props.spreadLettersProp[i], false);
+          }
         }
       })
   }
 
-  callToApiSecond = (nextLetter) => {
+  callToApiSecond = (nextLetter, isItWordFinal) => {
       axios ({
         url: `https://api.datamuse.com/words`,
         method: "get",
         params: {
           // lc: `${this.state.firstSelectedWord}`,
           sp: `${nextLetter}*`,
-          max: 100
+          max: 100,
+          md: "p"
         }
       }).then((data) => {
+        console.log(data);
         const newWordArray = [];
         data.data.map((wordObject) => {
-          newWordArray.push(wordObject.word)
+          newWordArray.push(wordObject)
         })
         const ongoingWordArray = [...this.state.restOfWordsArray];
         ongoingWordArray.push(newWordArray)
@@ -71,11 +79,29 @@ class QueryWord extends Component {
           restOfWordsArray: ongoingWordArray
         });
         let finalWord = [];
+        let isItANoun = false;
+        let actualStringToPush = "";
+        let fillerWord = "";
         finalWord = [...this.state.finalWord];
-        finalWord.push(newWordArray[this.generateRandomNumber(newWordArray)]);
+        const wordToPush = newWordArray[this.generateRandomNumber(newWordArray)]
+        if (isItWordFinal) { //check if it's word final letter BECAUSE
+          finalWord.push(newWordArray[this.generateRandomNumber(newWordArray)].word)
+        } else {
+          for (let i = 0; i <= wordToPush.tags.length; i++) {
+            if (wordToPush.tags[i] === "n") {
+              isItANoun = true;
+            }
+          }
+          if (isItANoun) {
+            actualStringToPush = `${wordToPush.word} of`
+          } else {
+            actualStringToPush = `${wordToPush.word}`
+          }
+          finalWord.push(actualStringToPush)
+        }
         this.setState({
           finalWord: finalWord,
-        });
+        });          
       })
       // words that often follow "drink" in a sentence, that start with the letter w 	/words?lc=drink&sp=w*
     }
