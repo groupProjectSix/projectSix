@@ -17,8 +17,12 @@ class QueryWord extends Component {
 // sends the final word up to firebase, each individual word/object makes an array
   handleFirebaseSubmit =() => { 
     const dbRef = firebase.database().ref(); 
-    const submittedWords =  (this.state.finalWord).concat(this.props.userInputProp);
-    dbRef.push(submittedWords);
+  
+    dbRef.push({
+      entireWord:this.props.userInputProp,
+      words:this.state.finalWord
+
+    });
   }
 
   generateRandomNumber = (array) => {
@@ -76,60 +80,60 @@ class QueryWord extends Component {
           this.handleApiData(data, isItWordFinal);
         }
       })
-    }
+  }
 
-    randomWordApiCall = (nextLetter, isItWordFinal) => {
-      axios ({
-        url: `https://api.datamuse.com/words`,
-        method: "get",
-        params: {
-          sp: `${nextLetter}*`,
-          max: 100,
-          md: "p"
-        }
-      }).then((data) => {
-        this.handleApiData(data, isItWordFinal);
+  randomWordApiCall = (nextLetter, isItWordFinal) => {
+    axios ({
+      url: `https://api.datamuse.com/words`,
+      method: "get",
+      params: {
+        sp: `${nextLetter}*`,
+        max: 100,
+        md: "p"
+      }
+    }).then((data) => {
+      this.handleApiData(data, isItWordFinal);
+    })
+  }
+
+  handleApiData = (data, isItWordFinal) => {
+    console.log(data);
+      const newWordArray = [];
+      data.data.map((wordObject) => {
+        newWordArray.push(wordObject)
       })
-    }
-
-    handleApiData = (data, isItWordFinal) => {
-      console.log(data);
-        const newWordArray = [];
-        data.data.map((wordObject) => {
-          newWordArray.push(wordObject)
-        })
-        const ongoingWordArray = [...this.state.restOfWordsArray];
-        ongoingWordArray.push(newWordArray)
-        this.setState({
-          restOfWordsArray: ongoingWordArray
-        });
-        let finalWord = [];
-        let isItANoun = false;
-        let actualStringToPush = "";
-        const fillerWord = ["of", "and"];
-        const randomFillerWord = this.generateRandomNumber(fillerWord);
-        console.log(fillerWord, randomFillerWord)
-        finalWord = [...this.state.finalWord];
-        const wordToPush = newWordArray[this.generateRandomNumber(newWordArray)]
-        if (isItWordFinal) { //check if it's word final letter to avoid 'of'
-          finalWord.push(newWordArray[this.generateRandomNumber(newWordArray)].word)
-        } else { //otherwise throw 'of' on the end!
-          for (let i = 0; i <= wordToPush.tags.length; i++) {
-            if (wordToPush.tags[i] === "n") {
-              isItANoun = true;
-            }
+      const ongoingWordArray = [...this.state.restOfWordsArray];
+      ongoingWordArray.push(newWordArray)
+      this.setState({
+        restOfWordsArray: ongoingWordArray
+      });
+      let finalWord = [];
+      let isItANoun = false;
+      let actualStringToPush = "";
+      const fillerWord = ["of", "and"];
+      const randomFillerWord = this.generateRandomNumber(fillerWord);
+      console.log(fillerWord, randomFillerWord)
+      finalWord = [...this.state.finalWord];
+      const wordToPush = newWordArray[this.generateRandomNumber(newWordArray)]
+      if (isItWordFinal) { //check if it's word final letter to avoid 'of'
+        finalWord.push(newWordArray[this.generateRandomNumber(newWordArray)].word)
+      } else { //otherwise throw 'of' on the end!
+        for (let i = 0; i <= wordToPush.tags.length; i++) {
+          if (wordToPush.tags[i] === "n") {
+            isItANoun = true;
           }
-          if (isItANoun) {
-            actualStringToPush = `${wordToPush.word} ${fillerWord[randomFillerWord]}`
-          } else {
-            actualStringToPush = `${wordToPush.word}`
-          }
-          finalWord.push(actualStringToPush)
         }
-        this.setState({
-          finalWord: finalWord,
-        });
-    }
+        if (isItANoun) {
+          actualStringToPush = `${wordToPush.word} ${fillerWord[randomFillerWord]}`
+        } else {
+          actualStringToPush = `${wordToPush.word}`
+        }
+        finalWord.push(actualStringToPush)
+      }
+      this.setState({
+        finalWord: finalWord,
+      });
+  }
 
   componentDidMount() {
     this.callToApiFirst(this.props.userInputProp, this.props.spreadLettersProp[0]);
