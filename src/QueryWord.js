@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
-import firebase from "./firebase"
+import firebase from "./firebase";
+import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 
 class QueryWord extends Component {
   constructor() {
@@ -20,7 +21,7 @@ class QueryWord extends Component {
   
     dbRef.push({
       entireWord:this.props.userInputProp,
-      words:this.state.finalWord
+      words:this.state.finalWord + "",
 
     });
   }
@@ -158,6 +159,10 @@ class QueryWord extends Component {
     this.callToApiFirst(this.props.userInputProp, this.props.spreadLettersProp[0]);
   }
 
+  searchAgain = () => {
+  this.callToApiFirst(this.props.userInputProp, this.props.spreadLettersProp[0]);
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -178,8 +183,12 @@ class QueryWord extends Component {
           }
           </ul>
           <div className="queryWordsHandlingButton">
-            <button className="tryAnotherButton">Try another</button>
-            <button type="submit" className="submitWordButton" onClick={this.handleFirebaseSubmit}>Submit your word</button>
+            <button className="tryAnotherButton" onClick={this.searchAgain}>Try again</button>
+            <button type="submit" className="submitWordButton" onClick={this.handleFirebaseSubmit}>
+              <Link to="/SavedBackronym">
+                Submit your word
+              </Link>
+            </button>
           </div>
         </section>
       </React.Fragment>

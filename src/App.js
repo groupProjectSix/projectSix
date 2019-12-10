@@ -4,11 +4,8 @@ import "./App.scss";
 import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 import Main from "./Main";
 import QueryWord from "./QueryWord";
-<<<<<<< HEAD
-import SavedBackronym from "./SavedBackronym";
-=======
 import logo from "./assets/logo.svg";
->>>>>>> 25992a4ddffc69a1ad74f79d77cab61537bdeffd
+import SavedBackronym from "./SavedBackronym";
 
 class App extends Component {
   constructor() {
@@ -68,7 +65,7 @@ class App extends Component {
                   </button>
                 </li>
                 <li>
-                  <button className="navLink" onClick={this.pullFirebase}> 
+                  <button className="navLink"> 
                     <Link to="/SavedBackronym">
                     Wall Of Literacy Fame
                     </Link>
@@ -82,8 +79,7 @@ class App extends Component {
 
           <Route exact path="/search" render={() => { return <QueryWord userInputProp={this.state.userInput} spreadLettersProp={this.state.spreadLetters} /> }} />
 
-          <Route exact path="/SavedBackronym" component={SavedBackronym} />
-
+          <Route exact path="/SavedBackronym" render={() => { return <SavedBackronym /> }} />
         </React.Fragment>
       </Router>
     );
