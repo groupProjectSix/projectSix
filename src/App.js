@@ -5,7 +5,8 @@ import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 import Main from "./Main";
 import QueryWord from "./QueryWord";
 import logo from "./assets/logo.svg";
-import SavedBackronym from "./SavedBackronym";
+import SavedBackronym from "./SavedBackronym"; 
+import Footer from "./Footer"
 
 class App extends Component {
   constructor() {
@@ -79,8 +80,11 @@ class App extends Component {
 
           <Route exact path="/search" render={() => { return <QueryWord userInputProp={this.state.userInput} spreadLettersProp={this.state.spreadLetters} /> }} />
 
-          <Route exact path="/SavedBackronym" render={() => { return <SavedBackronym /> }} />
-        </React.Fragment>
+          <Route exact path="/SavedBackronym" render={() => { return <SavedBackronym /> }} />  
+          <Route  path="*" render={() => { return <Footer />}} />
+        
+        </React.Fragment> 
+  
       </Router>
     );
   }
