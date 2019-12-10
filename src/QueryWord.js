@@ -17,8 +17,12 @@ class QueryWord extends Component {
 // sends the final word up to firebase, each individual word/object makes an array
   handleFirebaseSubmit =() => { 
     const dbRef = firebase.database().ref(); 
-    const submittedWords =  this.state.finalWord.concat(this.props.userInputProp);
-    dbRef.push(submittedWords);
+  
+    dbRef.push({
+      entireWord:this.props.userInputProp,
+      words:this.state.finalWord
+
+    });
   }
 
   generateRandomNumber = (array) => {
@@ -191,3 +195,14 @@ export default QueryWord;
 // sp:
 // rel_bga would be the word we want the call to relate TO
 // sp: is how we want the RESPONSE to be spelled like
+
+// const backronymsToBe = [];
+// const data = snapshot.val();
+
+// for (let key in data) {
+//   backronymsToBe.push(data[key]);
+// }
+
+// this.setState({
+//   savedBackronyms: backronymsToBe,
+// })
