@@ -102,39 +102,43 @@ class QueryWord extends Component {
     })
   }
 
+  //function to check, filter, and work with API returns
   handleApiData = (data, isItWordFinal) => {
-    const newWordArray = [];
+    const newWordArray = []; //empty array for our new word friends
     data.data.map((wordObject) => {
       newWordArray.push(wordObject)
     })
+    //fill an array with info ALREADY in state, so everything pushes in order
     const ongoingWordArray = [...this.state.restOfWordsArray];
     ongoingWordArray.push(newWordArray)
+    //reset state to the array plus new value!
     this.setState({
       restOfWordsArray: ongoingWordArray
     });
-    let finalWord = [];
-    let isItANoun = false;
+    let finalWord = []; //this is our final word STRING
+    let isItANoun = false; //default to false; to be checked later
     let actualStringToPush = "";
+    //some filler words to pretend anything in this crazy universe could make sense.
     const fillerWord = ["of", "and", "or"];
-    const randomFillerWord = this.generateRandomNumber(fillerWord);
-    console.log(fillerWord, randomFillerWord)
+    const randomFillerWord = this.generateRandomNumber(fillerWord); //self-explanatory?
+    //similar to above.
     finalWord = [...this.state.finalWord];
     const wordToPush = newWordArray[this.generateRandomNumber(newWordArray)]
     if (isItWordFinal) { //check if it's word final letter to filter results FIRST
       const finalWordArray = newWordArray.filter((word) => {
-        return word.tags;
+        return word.tags; //not all words have metadata tags
       }).filter((word) => {
-        return word.tags[0] === "n";
+        return word.tags[0] === "n"; // get the "nouns", according to datamuse
+        //not to throw shade but "AT" IS NOT A NOUN
       })
       finalWord.push(finalWordArray[this.generateRandomNumber(finalWordArray)].word)
-    } else if (wordToPush.tags) { //not all words have parts of speech tags
-      // but if they do, we want to know if it's a NOUN!!
+    } else if (wordToPush.tags) {
       for (let i = 0; i <= wordToPush.tags.length; i++) {
         if (wordToPush.tags[i] === "n") {
           isItANoun = true;
         }
       }
-      if (isItANoun) {
+      if (isItANoun) { // IS IT A NOUN, DATAMUSE?! IT MIGHT NOT BE
         actualStringToPush = `${wordToPush.word} ${fillerWord[randomFillerWord]}`
       } else {
         actualStringToPush = `${wordToPush.word}`
