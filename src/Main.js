@@ -27,7 +27,7 @@ class Main extends Component {
 
                     <form className="saveInput">
                         <span className="sr-only"><label htmlFor="wordInput">Enter a Word!</label></span>
-                        <input type="text" placeholder="type here" id="wordInput" maxLength="8" minLength="4" onChange={this.saveUserInput} />
+                        <input type="text" placeholder="type here" id="wordInput" maxLength="6" onChange={this.saveUserInput} />
                         <button 
                             onClick={this.preventDefaultFunction} 
                             type="submit">

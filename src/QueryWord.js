@@ -168,7 +168,7 @@ class QueryWord extends Component {
       <React.Fragment>
         <section className="wordListContainer wrapper">
         <h2>You searched the word:</h2>
-        <h3>Word</h3>
+    <h3>{this.props.userInputProp}</h3>
         <h2>Which <em>clearly</em> stands for:</h2>
 
         <ul className="wordChoicesList">
