@@ -27,18 +27,14 @@ class Main extends Component {
 
                     <form className="saveInput">
                         <span className="sr-only"><label htmlFor="wordInput">Enter a Word!</label></span>
-<<<<<<< HEAD
                         <input type="text" placeholder="type here" id="wordInput" maxLength="6" onChange={this.saveUserInput} />
-=======
-                        <input type="text" placeholder="type here" id="wordInput" maxLength="8" minLength="4" autoComplete="off" onChange={this.saveUserInput} />
->>>>>>> e35f132719e539ccb7e4306f9038bb3ac3687784
                         <button 
                             onClick={this.preventDefaultFunction} 
                             type="submit">
                             <Link to="/search">
                                 Go
                             </Link>
-                        </button >
+                        </button>
                     </form>
             </main>
         )
