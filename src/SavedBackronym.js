@@ -63,31 +63,31 @@ class SavedBackronym extends Component {
         console.log(this.state.savedBackronyms)
         return(
             <React.Fragment>
-
-                <h2>Hall of Fame</h2>
-                    {this.state.savedBackronyms.length != 0 
-                    ? this.state.savedBackronyms.map( (value) => {
-                        console.log(value)
-                        const wordsWithCommas = value.words;
-                        const wordsWithSpaces = wordsWithCommas.replace(/[,]/g, " ");
-                        console.log(wordsWithSpaces);
-                        return(
-                            <React.Fragment>
-                                <h3>{value.entireWord}</h3>
-                                <p>{wordsWithSpaces}</p>
-                            </React.Fragment>
-                        )
-                    })
-                    : <h3>Waiting for data to load...</h3>}
-
-                    {/* {this.state.savedBackronyms.length != 0 ? <p>{this.state.savedBackronyms[0].words}</p> : <p>Waiting for data to load...</p>} */}
-
-                {/* <ul>
-                    <li> 
-                        <h3></h3>
-                        <p></p>
-                    </li>
-                </ul> */}
+                <main className="wrapper">
+                    <div className="hallOfLiteracyFameHeader">
+                        <h2>Hall of Literacy Fame</h2>
+                    </div>
+                    <div className="resultsContainer">
+                        {this.state.savedBackronyms.length !== 0 
+                        ? this.state.savedBackronyms.map( (value) => {
+                            console.log(value)
+                            const wordsWithCommas = value.words;
+                            const wordsWithSpaces = wordsWithCommas.replace(/[,]/g, " ");
+                            console.log(wordsWithSpaces);
+                            return(
+                                <React.Fragment>
+                                    <div className="resultHeader">
+                                        <h3>{value.entireWord}</h3>
+                                        <div className="wordsContainer">
+                                            <p>{wordsWithSpaces}</p>
+                                        </div>
+                                    </div>
+                                </React.Fragment>
+                            )
+                        })
+                        : <h3>Waiting for data to load...</h3>}
+                    </div>
+                </main>
             </React.Fragment>
         )
     }

@@ -1,8 +1,16 @@
 import React, {Component} from "react";
 import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 import QueryWord from "./QueryWord"
+import { thisTypeAnnotation } from "@babel/types";
 
 class Main extends Component {
+    constructor() {
+        super();
+        this.state = {
+            showErrorMessage: true,
+            displayError: false,
+        };
+    }
 
     preventDefaultFunction = event => {
         event.preventDefault();
@@ -10,12 +18,35 @@ class Main extends Component {
     }
 
     saveUserInput = event => {
-        this.props.QueryWordResultsProp(event.target.value);
+        console.log(event.target);
+        const eventHappening = event.target.value;
+        this.setState({
+            showErrorMessage: false,
+        }, () => {
+            if (eventHappening.length >= 3 && eventHappening.length <= 6) {
+                this.props.QueryWordResultsProp(eventHappening);
+                this.setState({
+                    showErrorMessage: false,
+                    displayError: false,
+                })
+            } else if (eventHappening.length < 3) {
+                this.setState({
+                    showErrorMessage: true,
+                })
+                console.log("Enter at least 3 characters");
+            };
+        });
     }; 
+
+    displayErrorMessage = () => {
+        this.setState({
+            displayError: true,
+        });
+    }
 
     render(){
         return(
-            <main className="wrapper">
+            <main className="wrapper homepage">
 
                     <div className="mainTextContainer">
                         <h1>You know what's more fun than acronyms?
