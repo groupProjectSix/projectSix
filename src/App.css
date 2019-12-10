@@ -348,7 +348,7 @@ nav ul button:hover::after {
   opacity: 1;
 }
 
-main {
+.homepage {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -366,7 +366,7 @@ main {
           align-items: center;
 }
 
-main .saveInput {
+.homepage .saveInput {
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
   font-style: normal;
@@ -379,9 +379,12 @@ main .saveInput {
           flex-direction: row;
   font-size: 3rem;
   width: 700px;
+  position: relative;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
 }
 
-main .saveInput input {
+.homepage .saveInput input {
   width: 80%;
   border: 2px solid #ff7600;
   border-radius: 5px;
@@ -391,7 +394,7 @@ main .saveInput input {
   border-right: 0;
 }
 
-main button {
+.homepage button {
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
   font-style: normal;
@@ -405,7 +408,7 @@ main button {
   padding: 10px;
 }
 
-main button a {
+.homepage button a {
   color: #212121;
   display: block;
   width: 100%;
@@ -413,13 +416,13 @@ main button a {
   transition: all 0.8s;
 }
 
-main button a:hover {
+.homepage button a:hover {
   color: #ffffff;
   -webkit-transform: scale(-1, 1);
   transform: scale(-1, 1);
 }
 
-main button:hover {
+.homepage button:hover {
   background-color: #ff7600;
 }
 
@@ -547,5 +550,110 @@ main button:hover {
 .queryWordsHandlingButton .submitWordButton {
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
+}
+
+.eachWord::after {
+  content: " ";
+}
+
+.characterLengthError {
+  position: absolute;
+  bottom: -50px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  color: #ff7600;
+  padding-top: 10px;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.resultsContainer {
+  width: 90%;
+  height: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  padding-bottom: 200px;
+  margin: 0 auto;
+}
+
+.resultsContainer .resultHeader {
+  width: 500px;
+  background-color: black;
+  text-align: center;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  margin: 20px;
+}
+
+.resultsContainer .resultHeader h3 {
+  color: white;
+  padding: 10px 0;
+  text-transform: uppercase;
+}
+
+.resultsContainer .wordsContainer {
+  background-color: white;
+  border: 1px solid black;
+  padding: 10px;
+}
+
+.hallOfLiteracyFameHeader {
+  width: 100%;
+  margin-bottom: 100px;
+  text-align: center;
+}
+
+.hallOfLiteracyFameHeader h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 4rem;
+  position: relative;
+  display: inline-block;
+}
+
+.hallOfLiteracyFameHeader h2::after {
+  content: "";
+  width: 100%;
+  height: 10px;
+  background-color: #ff7600;
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+}
+
+footer {
+  width: 100%;
+  background-color: #212121;
+  text-align: center;
+  color: #ff7600;
+  height: 70px;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+}
+
+footer a {
+  color: white;
+  cursor: pointer;
+  padding: 10px;
+}
+
+footer p {
+  padding-top: 10px;
 }
 /*# sourceMappingURL=App.css.map */

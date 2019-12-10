@@ -1,3 +1,4 @@
+
 .homepage {
     display: flex;
     flex-direction: column;
@@ -22,7 +23,8 @@
             padding: 10px;
             border-right: 0;
         }
-    }
+    } 
+  
     button {
         @include sans;
         width: 20%;
@@ -32,7 +34,8 @@
         border-radius: 5px;
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
-        padding: 10px;
+        padding: 10px; 
+        
         a {
             color: $black;
             display: block;
@@ -50,7 +53,8 @@
         &:hover {
             background-color: $accent1;
         }
-    }
+    } 
+
 }
 .backronyms{
     transition: all 0.8s; 
@@ -162,7 +166,7 @@
     height: auto;
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: flex-start;
     flex-wrap: wrap;
     padding-bottom: 200px;
