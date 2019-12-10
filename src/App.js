@@ -4,11 +4,8 @@ import "./App.scss";
 import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 import Main from "./Main";
 import QueryWord from "./QueryWord";
-<<<<<<< HEAD
 import SavedBackronym from "./SavedBackronym";
-=======
 import logo from "./assets/logo.svg";
->>>>>>> 25992a4ddffc69a1ad74f79d77cab61537bdeffd
 
 class App extends Component {
   constructor() {
