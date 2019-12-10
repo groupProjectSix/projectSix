@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/projectSix/static/css/main.de84bdfa.chunk.css",
+    "main.js": "/projectSix/static/js/main.05b23c09.chunk.js",
+    "main.js.map": "/projectSix/static/js/main.05b23c09.chunk.js.map",
+    "runtime-main.js": "/projectSix/static/js/runtime-main.4bba6cf4.js",
+    "runtime-main.js.map": "/projectSix/static/js/runtime-main.4bba6cf4.js.map",
+    "static/js/2.421fa0f7.chunk.js": "/projectSix/static/js/2.421fa0f7.chunk.js",
+    "static/js/2.421fa0f7.chunk.js.map": "/projectSix/static/js/2.421fa0f7.chunk.js.map",
+    "index.html": "/projectSix/index.html",
+    "precache-manifest.84f3630a915cd39f95d393e85e089589.js": "/projectSix/precache-manifest.84f3630a915cd39f95d393e85e089589.js",
+    "service-worker.js": "/projectSix/service-worker.js",
+    "static/css/main.de84bdfa.chunk.css.map": "/projectSix/static/css/main.de84bdfa.chunk.css.map",
+    "static/js/2.421fa0f7.chunk.js.LICENSE": "/projectSix/static/js/2.421fa0f7.chunk.js.LICENSE",
+    "static/media/logo.svg": "/projectSix/static/media/logo.d65b87ef.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.4bba6cf4.js",
+    "static/js/2.421fa0f7.chunk.js",
+    "static/css/main.de84bdfa.chunk.css",
+    "static/js/main.05b23c09.chunk.js"
+  ]
+}
