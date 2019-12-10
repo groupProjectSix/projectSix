@@ -123,3 +123,7 @@ main {
         border-bottom-right-radius: 5px;
     }
 }
+
+.eachWord::after {
+content: " ";
+}
