@@ -20,11 +20,13 @@ class App extends Component {
     event.preventDefault();
     this.setState({
       userInput: "",
-    })
-
+    });
     this.setState({
       showBackButton: false,
-    })
+    });
+    this.setState({
+      spreadLetters: [],
+    });
   }
 
   QueryWordResults = (wordToQuery) => {

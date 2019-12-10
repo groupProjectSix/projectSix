@@ -65,7 +65,7 @@ class SavedBackronym extends Component {
             <React.Fragment>
 
                 <h2>Hall of Fame</h2>
-                    {this.state.savedBackronyms.length != 0 
+                    {this.state.savedBackronyms.length !== 0 
                     ? this.state.savedBackronyms.map( (value) => {
                         console.log(value)
                         const wordsWithCommas = value.words;

@@ -3,6 +3,12 @@ import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 import QueryWord from "./QueryWord"
 
 class Main extends Component {
+    constructor() {
+        super();
+        this.state = {
+            showErrorMessage: false,
+        };
+    }
 
     preventDefaultFunction = event => {
         event.preventDefault();
@@ -10,7 +16,20 @@ class Main extends Component {
     }
 
     saveUserInput = event => {
-        this.props.QueryWordResultsProp(event.target.value);
+        console.log(event.target);
+        const eventHappening = event.target.value;
+        this.setState({
+            showErrorMessage: false,
+        }, () => {
+            if (eventHappening.length >= 3 && eventHappening.length <= 6) {
+                this.props.QueryWordResultsProp(eventHappening);
+            } else if (eventHappening.length < 3) {
+                this.setState({
+                    showErrorMessage: true,
+                })
+                console.log("Enter at least 3 characters");
+            };
+        });
     }; 
 
     render(){
@@ -28,12 +47,8 @@ class Main extends Component {
                     <form className="saveInput">
                         <span className="sr-only"><label htmlFor="wordInput">Enter a Word!</label></span>
                         <input type="text" placeholder="type here" id="wordInput" maxLength="6" onChange={this.saveUserInput} />
-                        <button 
-                            onClick={this.preventDefaultFunction} 
-                            type="submit">
-                            <Link to="/search">
-                                Go
-                            </Link>
+                        <button onClick={this.preventDefaultFunction} type="submit">
+                        {this.state.showErrorMessage === true ? "Go" : <Link to="/search">Go</Link>}
                         </button>
                     </form>
             </main>
