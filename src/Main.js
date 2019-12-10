@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 import QueryWord from "./QueryWord"
-import { thisTypeAnnotation } from "@babel/types";
 
 class Main extends Component {
     constructor() {
@@ -58,12 +57,11 @@ class Main extends Component {
 
                     <form className="saveInput">
                         <span className="sr-only"><label htmlFor="wordInput">Enter a Word!</label></span>
-                        <input type="text" placeholder="type here" id="wordInput" maxLength="6" onChange={this.saveUserInput} />
-                            <div className="goButton">
-                                <Link to="/search">
-                                    Go
-                                </Link>
-                            </div>
+                            <input type="text" placeholder="type here" id="wordInput" maxLength="6" onChange={this.saveUserInput} />
+                            <button onClick={this.preventDefaultFunction} type="submit">
+                            {this.state.showErrorMessage === true ? <span onClick={this.displayErrorMessage}>Go</span> : <Link to="/search">Go</Link>}
+                            </button>
+                        {this.state.displayError ? <span className="characterLengthError">Please enter a word with at least three letters but no more than six.</span> : null}
                     </form>
             </main>
         )

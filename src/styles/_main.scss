@@ -38,12 +38,7 @@
         a {
             color: $black;
             padding: 0 30%;
-            transition:all 0.8s;
-<<<<<<< HEAD
-
-            &:hover, &:focus {
-                color: white;
-=======
+            transition: all 0.8s ease;
             &:hover {
                 color: $white; 
                 -moz-transform: scale(-1, 1);
@@ -51,7 +46,6 @@
                 -o-transform: scale(-1, 1);
                 -ms-transform: scale(-1, 1);
                 transform: scale(-1, 1);
->>>>>>> d56edaf84eab4a9ac490ffd461d16dcea065e633
             }
         }
     }
