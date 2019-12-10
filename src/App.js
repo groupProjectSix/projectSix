@@ -61,18 +61,18 @@ class App extends Component {
             <nav>
               <ul>
                 <li>
-                  <button className="navLink" onClick={this.returnHome}>
+                  <div className="navLink">
                     <Link to="/">
                       Home
                     </Link>
-                  </button>
+                  </div>
                 </li>
                 <li>
-                  <button className="navLink"> 
+                  <div className="navLink">
                     <Link to="/SavedBackronym">
                     Wall Of Literacy Fame
                     </Link>
-                  </button>
+                  </div>
                 </li>
               </ul>
             </nav>
