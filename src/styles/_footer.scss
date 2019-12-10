@@ -1,0 +1,19 @@
+
+
+
+footer{width: 100%;
+    background-color: $black;
+    text-align: center;
+    color: $accent1;
+    height: 70px; 
+    position: fixed;
+    left: 0;
+    bottom: 0;  
+    a{
+        color:white;
+        cursor: pointer;
+        padding: 10px;
+
+    } 
+    
+}
