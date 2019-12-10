@@ -164,35 +164,43 @@ class QueryWord extends Component {
   }
 
   render() {
-    return (
-      <React.Fragment>
+    if (this.state.finalWord.length === this.props.spreadLettersProp.length) {
+      return (
+        <React.Fragment>
+          <section className="wordListContainer wrapper">
+          <h2>You searched the word:</h2>
+          <h3>{this.props.userInputProp}</h3>
+          <h2>Which <em>clearly</em> stands for:</h2>
+  
+          <ul className="wordChoicesList">
+            {
+              this.state.finalWord.map( (word, index) => {
+                return(
+                  <li key={index}>
+                    {word}
+                  </li>
+                )
+              })
+            }
+            </ul>
+            <div className="queryWordsHandlingButton">
+              <button className="tryAnotherButton" onClick={this.searchAgain}>Try again</button>
+              <button type="submit" className="submitWordButton" onClick={this.handleFirebaseSubmit}>
+                <Link to="/SavedBackronym">
+                  Submit your word
+                </Link>
+              </button>
+            </div>
+          </section>
+        </React.Fragment>
+      )
+    } else {
+      return (
         <section className="wordListContainer wrapper">
-        <h2>You searched the word:</h2>
-        <h3>{this.props.userInputProp}</h3>
-        <h2>Which <em>clearly</em> stands for:</h2>
-
-        <ul className="wordChoicesList">
-          {
-            this.state.finalWord.map( (word, index) => {
-              return(
-                <li key={index}>
-                  {word}
-                </li>
-              )
-            })
-          }
-          </ul>
-          <div className="queryWordsHandlingButton">
-            <button className="tryAnotherButton" onClick={this.searchAgain}>Try again</button>
-            <button type="submit" className="submitWordButton" onClick={this.handleFirebaseSubmit}>
-              <Link to="/SavedBackronym">
-                Submit your word
-              </Link>
-            </button>
-          </div>
+          <h3>Generating Backronym...</h3>
         </section>
-      </React.Fragment>
-    )
+      )
+    }
   }
 }
 export default QueryWord;
