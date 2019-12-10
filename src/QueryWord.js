@@ -184,11 +184,9 @@ class QueryWord extends Component {
           </ul>
           <div className="queryWordsHandlingButton">
             <button className="tryAnotherButton" onClick={this.searchAgain}>Try again</button>
-            <button type="submit" className="submitWordButton" onClick={this.handleFirebaseSubmit}>
-              <Link to="/SavedBackronym">
+            <Link to="/SavedBackronym" className="submitWordLink" onClick={this.handleFirebaseSubmit}>
                 Submit your word
               </Link>
-            </button>
           </div>
         </section>
       </React.Fragment>

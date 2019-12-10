@@ -28,13 +28,11 @@ class Main extends Component {
                     <form className="saveInput">
                         <span className="sr-only"><label htmlFor="wordInput">Enter a Word!</label></span>
                         <input type="text" placeholder="type here" id="wordInput" maxLength="6" onChange={this.saveUserInput} />
-                        <button 
-                            onClick={this.preventDefaultFunction} 
-                            type="submit">
-                            <Link to="/search">
-                                Go
-                            </Link>
-                        </button>
+                            <div className="goButton">
+                                <Link to="/search">
+                                    Go
+                                </Link>
+                            </div>
                     </form>
             </main>
         )
