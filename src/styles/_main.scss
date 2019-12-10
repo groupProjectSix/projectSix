@@ -39,13 +39,9 @@
             color: $black;
             padding: 0 30%;
             transition: all 0.8s ease;
-            &:hover {
-                color: $white; 
-                -moz-transform: scale(-1, 1);
-                -webkit-transform: scale(-1, 1);
-                -o-transform: scale(-1, 1);
-                -ms-transform: scale(-1, 1);
-                transform: scale(-1, 1);
+
+            &:hover, &:focus {
+                color: $white;
             }
         }
     }
