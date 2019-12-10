@@ -34,37 +34,51 @@ class QueryWord extends Component {
       url:`https://api.datamuse.com/words`, 
       method: "get", 
       params:{ 
-          ml:`${userWord}`,
-          sp: `${firstLetter}*`,
-          md: "p"
-        }
-      }).then((data)=>{
-        console.log(data)
-        const arrayOfLetterObject = data.data;
-        this.setState({
-          firstWordArray: arrayOfLetterObject,
-        })
-      }).then( () => {
-        let randomWordNumber = this.generateRandomNumber(this.state.firstWordArray);
-        const firstWord = (this.state.firstWordArray[randomWordNumber].word);
-        const arrayForFirstWord = [];
-        arrayForFirstWord.push(firstWord)
-        this.setState({
-          firstSelectedWord: firstWord,
-          finalWord: arrayForFirstWord
-        });
-      }).then(() => {
-        let lastLetter = false;
-        for (let i = 1; i <= this.props.spreadLettersProp.length - 1; i++) {
-          if (i === this.props.spreadLettersProp.length - 1) {
-            lastLetter = true;
-          }
-          this.callToApiSecond(this.props.spreadLettersProp[i], this.state.finalWord[i], lastLetter);
-        }
+        ml:`${userWord}`,
+        sp: `${firstLetter}*`,
+        md: "p"
+      }
+    }).then((data)=>{
+      console.log(data)
+      const arrayOfLetterObject = data.data;
+      this.setState({
+        firstWordArray: arrayOfLetterObject,
       })
+    }).then( () => {
+      let randomWordNumber = this.generateRandomNumber(this.state.firstWordArray);
+      const firstWord = (this.state.firstWordArray[randomWordNumber].word);
+      const arrayForFirstWord = [];
+      arrayForFirstWord.push(firstWord)
+      this.setState({
+        firstSelectedWord: firstWord,
+        finalWord: arrayForFirstWord
+      });
+    }) //set an async function to await the result of each call before making the next
+    .then( async () => {
+      let lastLetter = false;
+      //set up a loop to go through the remaining letters of user word
+      for (let i = 1; i <= this.props.spreadLettersProp.length - 1; i++) {
+        // check if we're on the last letter
+        if (i === this.props.spreadLettersProp.length - 1) {
+          lastLetter = true;
+        }
+        // setting a new variable to hold our api return PROMISE
+        const newWords = this.callToApiSecond(this.props.spreadLettersProp[i], this.state.finalWord[i]);
+        //wait for it....
+        await newWords.then((data) => {
+          // determine if we have a data return; I went for at least 2 for variety
+          if (data.data.length < 2) {
+            this.randomWordApiCall(this.props.spreadLettersProp[i], lastLetter);
+          } else { //otherwise pull a random response so we keep our word.
+            this.handleApiData(data, lastLetter);
+          }
+        })
+      }
+    })
   }
 
   callToApiSecond = (nextLetter, prevWord, isItWordFinal) => {
+    return new Promise((resolve, reject) => {
       axios ({
         url: `https://api.datamuse.com/words`,
         method: "get",
@@ -74,12 +88,9 @@ class QueryWord extends Component {
           md: "p"
         }
       }).then((data) => {
-        if (data.data.length < 2) {
-          this.randomWordApiCall(nextLetter, isItWordFinal);
-        } else {
-          this.handleApiData(data, isItWordFinal);
-        }
+        resolve(data);
       })
+    })
   }
 
   randomWordApiCall = (nextLetter, isItWordFinal) => {
@@ -88,7 +99,6 @@ class QueryWord extends Component {
       method: "get",
       params: {
         sp: `${nextLetter}*`,
-        max: 100,
         md: "p"
       }
     }).then((data) => {
@@ -96,43 +106,52 @@ class QueryWord extends Component {
     })
   }
 
+  //function to check, filter, and work with API returns
   handleApiData = (data, isItWordFinal) => {
-    console.log(data);
-      const newWordArray = [];
-      data.data.map((wordObject) => {
-        newWordArray.push(wordObject)
+    const newWordArray = []; //empty array for our new word friends
+    data.data.map((wordObject) => {
+      newWordArray.push(wordObject)
+    })
+    //fill an array with info ALREADY in state, so everything pushes in order
+    const ongoingWordArray = [...this.state.restOfWordsArray];
+    ongoingWordArray.push(newWordArray)
+    //reset state to the array plus new value!
+    this.setState({
+      restOfWordsArray: ongoingWordArray
+    });
+    let finalWord = []; //this is our final word STRING
+    let isItANoun = false; //default to false; to be checked later
+    let actualStringToPush = "";
+    //some filler words to pretend anything in this crazy universe could make sense.
+    const fillerWord = ["of", "and", "or"];
+    const randomFillerWord = this.generateRandomNumber(fillerWord); //self-explanatory?
+    //similar to above.
+    finalWord = [...this.state.finalWord];
+    const wordToPush = newWordArray[this.generateRandomNumber(newWordArray)]
+    if (isItWordFinal) { //check if it's word final letter to filter results FIRST
+      const finalWordArray = newWordArray.filter((word) => {
+        return word.tags; //not all words have metadata tags
+      }).filter((word) => {
+        return word.tags[0] === "n"; // get the "nouns", according to datamuse
+        //not to throw shade but "AT" IS NOT A NOUN
       })
-      const ongoingWordArray = [...this.state.restOfWordsArray];
-      ongoingWordArray.push(newWordArray)
-      this.setState({
-        restOfWordsArray: ongoingWordArray
-      });
-      let finalWord = [];
-      let isItANoun = false;
-      let actualStringToPush = "";
-      const fillerWord = ["of", "and"];
-      const randomFillerWord = this.generateRandomNumber(fillerWord);
-      console.log(fillerWord, randomFillerWord)
-      finalWord = [...this.state.finalWord];
-      const wordToPush = newWordArray[this.generateRandomNumber(newWordArray)]
-      if (isItWordFinal) { //check if it's word final letter to avoid 'of'
-        finalWord.push(newWordArray[this.generateRandomNumber(newWordArray)].word)
-      } else { //otherwise throw 'of' on the end!
-        for (let i = 0; i <= wordToPush.tags.length; i++) {
-          if (wordToPush.tags[i] === "n") {
-            isItANoun = true;
-          }
+      finalWord.push(finalWordArray[this.generateRandomNumber(finalWordArray)].word)
+    } else if (wordToPush.tags) {
+      for (let i = 0; i <= wordToPush.tags.length; i++) {
+        if (wordToPush.tags[i] === "n") {
+          isItANoun = true;
         }
-        if (isItANoun) {
-          actualStringToPush = `${wordToPush.word} ${fillerWord[randomFillerWord]}`
-        } else {
-          actualStringToPush = `${wordToPush.word}`
-        }
-        finalWord.push(actualStringToPush)
       }
-      this.setState({
-        finalWord: finalWord,
-      });
+      if (isItANoun) { // IS IT A NOUN, DATAMUSE?! IT MIGHT NOT BE
+        actualStringToPush = `${wordToPush.word} ${fillerWord[randomFillerWord]}`
+      } else {
+        actualStringToPush = `${wordToPush.word}`
+      }
+      finalWord.push(actualStringToPush)
+    }
+    this.setState({
+      finalWord: finalWord,
+    });
   }
 
   componentDidMount() {
@@ -142,36 +161,27 @@ class QueryWord extends Component {
   render() {
     return (
       <React.Fragment>
-        <ul className="wordChoicesList wrapper">
-        {/* {this.props.spreadLettersProp.map( (letter, index) => {
-          if (index === 0) {
-            return(
-              <li key={index}>
-                <p>{this.state.firstSelectedWord}</p>
-              </li>
-            )
-          } else {
-            this.state.restOfWordsArray.map((wordArray, index) => {
-              return (
+        <section className="wordListContainer wrapper">
+        <h2>You searched the word:</h2>
+        <h3>Word</h3>
+        <h2>Which <em>clearly</em> stands for:</h2>
+
+        <ul className="wordChoicesList">
+          {
+            this.state.finalWord.map( (word, index) => {
+              return(
                 <li key={index}>
-                  <p>{wordArray[this.generateRandomNumber(wordArray)]}</p>
+                  {word}
                 </li>
               )
             })
           }
-        })} */}
-
-        {
-          this.state.finalWord.map( (word, index) => {
-            return(
-              <li key={index}>
-                {word}
-              </li>
-            )
-          })
-        }
-        </ul> 
-        <button type="submit" onClick={this.handleFirebaseSubmit}>Submit your word</button>
+          </ul>
+          <div className="queryWordsHandlingButton">
+            <button className="tryAnotherButton">Try another</button>
+            <button type="submit" className="submitWordButton" onClick={this.handleFirebaseSubmit}>Submit your word</button>
+          </div>
+        </section>
       </React.Fragment>
     )
   }

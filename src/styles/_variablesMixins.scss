@@ -1,25 +1,31 @@
 // Colours
 $black: #212121;
 $white: #ffffff;
-$accent1: #ffb000;
-$accent2: #f4f4f4;
-
+$accent1: #ff7600;
+$accent2: #81003b;
 
 // Fonts
-@mixin lightSans {
-    font-family: halyard-display, sans-serif;
-    font-weight: 200;
-    font-style: normal;
-}
 
 @mixin sans {
-    font-family: halyard-display, sans-serif;  
+    font-family: 'Montserrat', sans-serif; 
     font-weight: 400;  
     font-style: normal;
 }
 
+@mixin mediumSans {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
 @mixin boldSans {
-    font-family: halyard-display, sans-serif;    
-    font-weight: 700;    
+    font-family: 'Montserrat', sans-serif;    
+    font-weight: 900;    
+    font-style: normal;
+}
+
+@mixin serif {
+    font-family: 'Maitree', serif;
+    font-weight: 500;
     font-style: normal;
 }

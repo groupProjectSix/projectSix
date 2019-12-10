@@ -2,10 +2,11 @@ main {
     display: flex;
     flex-direction: column;
     width: 100%;
+    height: calc(100vh - 250px);
     justify-content: center;
     align-items: center;
     .saveInput {
-        @include lightSans;
+        @include sans;
         display: flex;
         flex-direction: row;
         font-size: 3rem;
@@ -20,50 +21,105 @@ main {
             border-right: 0;
         }
     }
+    button {
+        @include sans;
+        width: 20%;
+        background-color: $accent1;
+        color: $black;
+        border: 2px solid $accent1;
+        border-radius: 5px;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        padding: 10px;
+        a {
+            color: $black;
+            display: block;
+            width: 100%;
+            &:hover {
+                color: $white;
+            }
+        }
+        &:hover {
+            background-color: $accent1;
+        }
+    }
 }
 
 .wordChoicesList {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
-    
-    background: white;
-    border: 2px solid $accent1;
+    flex-wrap: wrap; 
+    background: transparent;
     border-radius: 5px;
-    margin: 10px;
-
-
+    padding: 25px;
     li {
-        padding: 40px 40px;
+        padding-right: 5px;
     }
-
-    // change the first letter of results to different color
-    // li:first-letter {
-    //     color: red;
-    // }
 }
 
-button {
-    @include lightSans;
-    width: 20%;
-    background-color: $white;
-    color: $black;
-    border: 2px solid $accent1;
-    border-radius: 5px;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    padding: 10px;
-    a {
+.mainTextContainer {
+    text-align: center;
+    padding: 25px;
+    margin-top: -190px;
+    h1 {
+        @include mediumSans;
+        font-size: 4rem;
         color: $black;
+        width: 500px;
+        margin: 0 auto;
+    }
+    span {
         display: block;
-        width: 100%;
+    }
+    p {
+        @include sans;
+        font-size: 2rem;
+        display: block;
+        width: 750px;
+        padding: 25px;
+    }
+}
+
+.wordListContainer {
+    text-align: center;
+    h2 {
+        @include sans;
+        font-size: 4rem;
+    }
+    h3 {
+        @include boldSans;
+        font-size: 5rem;
+        text-transform: uppercase;
+        padding: 25px;
+    }
+}
+
+.queryWordsHandlingButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    button {
+        @include mediumSans;
+        color: $white;
+        background-color: $accent1;
+        border: 0;
+        padding: 10px;
+        cursor: pointer;
+        width: 250px;
+        transition: all 0.5s ease;
         &:hover {
-            color: $white;
+            background-color: $black;
         }
     }
-    &:hover {
-        background-color: $accent1;
+    .tryAnotherButton {
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+        margin-right: 2px;
+    }
+    .submitWordButton {
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
     }
 }

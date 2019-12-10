@@ -4,7 +4,11 @@ import "./App.scss";
 import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 import Main from "./Main";
 import QueryWord from "./QueryWord";
+<<<<<<< HEAD
 import SavedBackronym from "./SavedBackronym";
+=======
+import logo from "./assets/logo.svg";
+>>>>>>> 25992a4ddffc69a1ad74f79d77cab61537bdeffd
 
 class App extends Component {
   constructor() {
@@ -12,14 +16,7 @@ class App extends Component {
     this.state = {
       userInput: "",
       spreadLetters: [],
-      showBackButton: false,
     };
-  }
-
-  displayButton = () => {
-    this.setState({
-      showBackButton: true,
-    })
   }
 
   returnHome = (event) => {
@@ -55,21 +52,33 @@ class App extends Component {
     return (
       <Router>
         <React.Fragment>
-          <header>
-            <h1>Backronym Generator!</h1>
-            {this.state.showBackButton ? <button onClick={this.returnHome}>
-              <Link to="/">
-                Go Backronym!
-              </Link>
-            </button>: null}
-            
-            <button onClick={this.showButton}> 
-              <Link to="/SavedBackronym">
-                wall of literacy fame
-              </Link>
-            </button>
+          <header className="wrapper">
+            <div className="logoContainer">
+              <h1 className="sr-only">Backronym Generator!</h1>
+              <img src={logo} />
+            </div>
+
+            <nav>
+              <ul>
+                <li>
+                  <button className="navLink" onClick={this.returnHome}>
+                    <Link to="/">
+                      Home
+                    </Link>
+                  </button>
+                </li>
+                <li>
+                  <button className="navLink" onClick={this.pullFirebase}> 
+                    <Link to="/SavedBackronym">
+                    Wall Of Literacy Fame
+                    </Link>
+                  </button>
+                </li>
+              </ul>
+            </nav>
+
           </header>
-          <Route exact path="/" render={() => { return <Main displayButtonProp={this.displayButton} lettersToBeSpreadProp={this.lettersToBeSpread} QueryWordResultsProp={this.QueryWordResults}/>}} />
+          <Route exact path="/" render={() => { return <Main lettersToBeSpreadProp={this.lettersToBeSpread} QueryWordResultsProp={this.QueryWordResults}/>}} />
 
           <Route exact path="/search" render={() => { return <QueryWord userInputProp={this.state.userInput} spreadLettersProp={this.state.spreadLetters} /> }} />
 
