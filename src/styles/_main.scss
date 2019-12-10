@@ -35,13 +35,31 @@ main {
             color: $black;
             display: block;
             width: 100%;
+            transition:all 0.8s;
             &:hover {
-                color: $white;
+                color: $white; 
+                -moz-transform: scale(-1, 1);
+                -webkit-transform: scale(-1, 1);
+                -o-transform: scale(-1, 1);
+                -ms-transform: scale(-1, 1);
+                transform: scale(-1, 1);
+               
             }
         }
         &:hover {
             background-color: $accent1;
         }
+    }
+}
+.backronyms{
+    transition: all 0.8s; 
+
+    &:hover{
+    -moz-transform: scale(-1, 1);
+    -webkit-transform: scale(-1, 1);
+    -o-transform: scale(-1, 1);
+    -ms-transform: scale(-1, 1);
+    transform: scale(-1, 1);
     }
 }
 
@@ -122,4 +140,8 @@ main {
         border-top-right-radius: 5px;
         border-bottom-right-radius: 5px;
     }
+}
+
+.eachWord::after {
+content: " ";
 }

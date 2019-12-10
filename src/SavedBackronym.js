@@ -1,20 +1,35 @@
 import React, { Component } from "react";
-// import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 import firebase from "./firebase";
 
 class SavedBackronym extends Component {
     constructor(){
         super();
         this.state = {
-            // savedBackronyms: null,
-            baseWord: [],
+            savedBackronyms: [],
         }
     }
     pullFirebase = () => {
         const dbRef = firebase.database().ref();
         dbRef.on('value', snapshot => {
             const data = snapshot.val();
-            console.log(data[0]);
+            const backronymsToBe = [];
+
+            for (let key in data) {
+                backronymsToBe.push(data[key]);
+            }
+            this.setState({
+                savedBackronyms: backronymsToBe,
+            })
+            // console.log(this.state.savedBackronyms[0].entireWord)
+        })
+
+        // this.state.savedBackronyms
+    }
+    
+        
+        // dbRef.on('value', snapshot => {
+        //     const data = snapshot.val();
+        //     console.log(data[0]);
             // this.setState({
             //     savedBackronyms: data,
             // })
@@ -35,9 +50,9 @@ class SavedBackronym extends Component {
                 // console.log(testArray)
                 // console.log(objectFromFirebase[eachKey])
             // }
-        }); 
+    //     }); 
         
-    } 
+    // } 
 
 
     componentDidMount(){
@@ -45,16 +60,34 @@ class SavedBackronym extends Component {
     }
 
     render(){ 
+        console.log(this.state.savedBackronyms)
         return(
             <React.Fragment>
-                <h2>Hall of Fame</h2>
 
-                <ul>
+                <h2>Hall of Fame</h2>
+                    {this.state.savedBackronyms.length != 0 
+                    ? this.state.savedBackronyms.map( (value) => {
+                        console.log(value)
+                        const wordsWithCommas = value.words;
+                        const wordsWithSpaces = wordsWithCommas.replace(/[,]/g, " ");
+                        console.log(wordsWithSpaces);
+                        return(
+                            <React.Fragment>
+                                <h3>{value.entireWord}</h3>
+                                <p>{wordsWithSpaces}</p>
+                            </React.Fragment>
+                        )
+                    })
+                    : <h3>Waiting for data to load...</h3>}
+
+                    {/* {this.state.savedBackronyms.length != 0 ? <p>{this.state.savedBackronyms[0].words}</p> : <p>Waiting for data to load...</p>} */}
+
+                {/* <ul>
                     <li> 
                         <h3></h3>
                         <p></p>
                     </li>
-                </ul>
+                </ul> */}
             </React.Fragment>
         )
     }
