@@ -49,41 +49,44 @@ class QueryWord extends Component {
         firstSelectedWord: firstWord,
         finalWord: arrayForFirstWord
       });
-    }).then( async () => {
+    }) //set an async function to await the result of each call before making the next
+    .then( async () => {
       let lastLetter = false;
+      //set up a loop to go through the remaining letters of user word
       for (let i = 1; i <= this.props.spreadLettersProp.length - 1; i++) {
+        // check if we're on the last letter
         if (i === this.props.spreadLettersProp.length - 1) {
           lastLetter = true;
         }
+        // setting a new variable to hold our api return PROMISE
         const newWords = this.callToApiSecond(this.props.spreadLettersProp[i], this.state.finalWord[i]);
-        console.log(newWords);
-        // if (newWords.data.length < 2) {
-        //   this.randomWordApiCall(this.props.spreadLettersProp[i], lastLetter);
-        // } else {
-        //   this.handleApiData(newWords, lastLetter);
-        // }
+        //wait for it....
+        await newWords.then((data) => {
+          // determine if we have a data return; I went for at least 2 for variety
+          if (data.data.length < 2) {
+            this.randomWordApiCall(this.props.spreadLettersProp[i], lastLetter);
+          } else { //otherwise pull a random response so we keep our word.
+            this.handleApiData(data, lastLetter);
+          }
+        })
       }
     })
   }
 
-  callToApiSecond = (nextLetter, prevWord) => {
-    axios ({
-      url: `https://api.datamuse.com/words`,
-      method: "get",
-      params: {
-        lc: `${prevWord}`,
-        sp: `${nextLetter}*`,
-        md: "p"
-      }
-    })// .then((data) => {
-      // console.log(data);
-      // return data
-      // if (data.data.length < 2) {
-      //   this.randomWordApiCall(nextLetter, isItWordFinal);
-      // } else {
-      //   this.handleApiData(data, isItWordFinal);
-      // }
-    // })
+  callToApiSecond = (nextLetter, prevWord, isItWordFinal) => {
+    return new Promise((resolve, reject) => {
+      axios ({
+        url: `https://api.datamuse.com/words`,
+        method: "get",
+        params: {
+          lc: `${prevWord}`,
+          sp: `${nextLetter}*`,
+          md: "p"
+        }
+      }).then((data) => {
+        resolve(data);
+      })
+    })
   }
 
   randomWordApiCall = (nextLetter, isItWordFinal) => {
@@ -92,7 +95,6 @@ class QueryWord extends Component {
       method: "get",
       params: {
         sp: `${nextLetter}*`,
-        max: 100,
         md: "p"
       }
     }).then((data) => {
@@ -101,7 +103,6 @@ class QueryWord extends Component {
   }
 
   handleApiData = (data, isItWordFinal) => {
-    console.log(data);
     const newWordArray = [];
     data.data.map((wordObject) => {
       newWordArray.push(wordObject)
@@ -114,14 +115,20 @@ class QueryWord extends Component {
     let finalWord = [];
     let isItANoun = false;
     let actualStringToPush = "";
-    const fillerWord = ["of", "and"];
+    const fillerWord = ["of", "and", "or"];
     const randomFillerWord = this.generateRandomNumber(fillerWord);
     console.log(fillerWord, randomFillerWord)
     finalWord = [...this.state.finalWord];
     const wordToPush = newWordArray[this.generateRandomNumber(newWordArray)]
-    if (isItWordFinal) { //check if it's word final letter to avoid 'of'
-      finalWord.push(newWordArray[this.generateRandomNumber(newWordArray)].word)
-    } else { //otherwise throw 'of' on the end!
+    if (isItWordFinal) { //check if it's word final letter to filter results FIRST
+      const finalWordArray = newWordArray.filter((word) => {
+        return word.tags;
+      }).filter((word) => {
+        return word.tags[0] === "n";
+      })
+      finalWord.push(finalWordArray[this.generateRandomNumber(finalWordArray)].word)
+    } else if (wordToPush.tags) { //not all words have parts of speech tags
+      // but if they do, we want to know if it's a NOUN!!
       for (let i = 0; i <= wordToPush.tags.length; i++) {
         if (wordToPush.tags[i] === "n") {
           isItANoun = true;
@@ -162,7 +169,7 @@ class QueryWord extends Component {
             })
           }
           </ul>
-          <div class="queryWordsHandlingButton">
+          <div className="queryWordsHandlingButton">
             <button className="tryAnotherButton">Try another</button>
             <button type="submit" className="submitWordButton" onClick={this.handleFirebaseSubmit}>Submit your word</button>
           </div>
