@@ -6,7 +6,6 @@ class Main extends Component {
 
     preventDefaultFunction = event => {
         event.preventDefault();
-        this.props.displayButtonProp();
         this.props.lettersToBeSpreadProp();
     }
 
@@ -17,21 +16,26 @@ class Main extends Component {
     render(){
         return(
             <main className="wrapper">
-                <form className="saveInput">
-                    <span className="sr-only"><label htmlFor="wordInput">Enter a Word!</label></span>
 
-                    <input type="text" placeholder="type here" id="wordInput" maxLength="8" minLength="4" onChange={this.saveUserInput} />
-    
+                    <div className="mainTextContainer">
+                        <h1>You know what's more fun than acronyms?
+                            <span className="backronyms">Backronyms.</span>
+                        </h1>
+                        <p>Enter any word below between three and six letters.<br/>
+                        We’ll work our magic and figure out what it stands for as an acronym.</p>
+                    </div>
 
-                    <button 
-                        onClick={this.preventDefaultFunction} 
-                        type="submit">
-                        <Link to="/search">
-                            Go
-                        </Link>
-                    </button>
-
-                </form>
+                    <form className="saveInput">
+                        <span className="sr-only"><label htmlFor="wordInput">Enter a Word!</label></span>
+                        <input type="text" placeholder="type here" id="wordInput" maxLength="8" minLength="4" onChange={this.saveUserInput} />
+                        <button 
+                            onClick={this.preventDefaultFunction} 
+                            type="submit">
+                            <Link to="/search">
+                                Go
+                            </Link>
+                        </button>
+                    </form>
             </main>
         )
     }
