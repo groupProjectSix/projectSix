@@ -3,6 +3,13 @@ import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 import QueryWord from "./QueryWord"
 
 class Main extends Component {
+    constructor() {
+        super();
+        this.state = {
+            // isWordRightLength: false //set up a boolean for form error checking.
+            showErrorMessage: false
+        }
+    }
 
     preventDefaultFunction = event => {
         event.preventDefault();
@@ -10,8 +17,23 @@ class Main extends Component {
     }
 
     saveUserInput = event => {
-        this.props.QueryWordResultsProp(event.target.value);
-    }; 
+        this.setState({
+            showErrorMessage: false
+        })
+        if (event.target.value.length >= 3 && event.target.value.length <= 6) {
+            this.props.QueryWordResultsProp(event.target.value);
+        } else {
+            this.setState({
+                showErrorMessage: true
+            })
+        }
+    };
+    
+    displayErrorMessage = () => {
+        return (
+            <p>Please enter a word more than 3 letters!</p>
+        )
+    }
 
     render(){
         return(
@@ -36,6 +58,7 @@ class Main extends Component {
                             </Link>
                         </button>
                     </form>
+                    {this.state.displayErrorMessage ? <h3>Please enter at least 3 characters and no more than 6!</h3> : null}
             </main>
         )
     }
