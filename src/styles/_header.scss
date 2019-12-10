@@ -6,12 +6,22 @@ header {
     padding: 20px;
     .logoContainer {
         width: 150px;
-        height: 150px;
+        height: 150px; 
+        
         img {
             object-fit: contain;
             object-position: center;
             height: 100%;
             width: 100%;
+            transition: all 0.8s;
+        } 
+        :hover{
+            -moz-transform: scale(-1, 1);
+            -webkit-transform: scale(-1, 1);
+            -o-transform: scale(-1, 1);
+            -ms-transform: scale(-1, 1);
+            transform: scale(-1, 1);
+
         }
     }
 }
