@@ -13,6 +13,7 @@ class QueryWord extends Component {
       firstSelectedWord: "",
       restOfWordsArray: [],
       finalWord: [],
+      thatsNotAWord: false,
     };
   }
 // sends the final word up to firebase, each individual word/object makes an array
@@ -40,40 +41,49 @@ class QueryWord extends Component {
         md: "p"
       }
     }).then((data)=>{
-      console.log(data)
-      const arrayOfLetterObject = data.data;
-      this.setState({
-        firstWordArray: arrayOfLetterObject,
-      })
+      if (data.data.length === 0) {
+        this.setState({
+          thatsNotAWord: true
+        })
+      } else {
+        const arrayOfLetterObject = data.data;
+        this.setState({
+          firstWordArray: arrayOfLetterObject,
+        })
+      }
     }).then( () => {
-      let randomWordNumber = this.generateRandomNumber(this.state.firstWordArray);
-      const firstWord = (this.state.firstWordArray[randomWordNumber].word);
-      const arrayForFirstWord = [];
-      arrayForFirstWord.push(firstWord)
-      this.setState({
-        firstSelectedWord: firstWord,
-        finalWord: arrayForFirstWord
-      });
+      if (this.state.thatsNotAWord === false) {
+        let randomWordNumber = this.generateRandomNumber(this.state.firstWordArray);
+        const firstWord = (this.state.firstWordArray[randomWordNumber].word);
+        const arrayForFirstWord = [];
+        arrayForFirstWord.push(firstWord)
+        this.setState({
+          firstSelectedWord: firstWord,
+          finalWord: arrayForFirstWord
+        });
+      }
     }) //set an async function to await the result of each call before making the next
     .then( async () => {
-      let lastLetter = false;
-      //set up a loop to go through the remaining letters of user word
-      for (let i = 1; i <= this.props.spreadLettersProp.length - 1; i++) {
-        // check if we're on the last letter
-        if (i === this.props.spreadLettersProp.length - 1) {
-          lastLetter = true;
-        }
-        // setting a new variable to hold our api return PROMISE
-        const newWords = this.callToApiSecond(this.props.spreadLettersProp[i], this.state.finalWord[i]);
-        //wait for it....
-        await newWords.then((data) => {
-          // determine if we have a data return; I went for at least 2 for variety
-          if (data.data.length < 2) {
-            this.randomWordApiCall(this.props.spreadLettersProp[i], lastLetter);
-          } else { //otherwise pull a random response so we keep our word.
-            this.handleApiData(data, lastLetter);
+      if (this.state.thatsNotAWord === false) {
+        let lastLetter = false;
+        //set up a loop to go through the remaining letters of user word
+        for (let i = 1; i <= this.props.spreadLettersProp.length - 1; i++) {
+          // check if we're on the last letter
+          if (i === this.props.spreadLettersProp.length - 1) {
+            lastLetter = true;
           }
-        })
+          // setting a new variable to hold our api return PROMISE
+          const newWords = this.callToApiSecond(this.props.spreadLettersProp[i], this.state.finalWord[i]);
+          //wait for it....
+          await newWords.then((data) => {
+            // determine if we have a data return; I went for at least 2 for variety
+            if (data.data.length < 2) {
+              this.randomWordApiCall(this.props.spreadLettersProp[i], lastLetter);
+            } else { //otherwise pull a random response so we keep our word.
+              this.handleApiData(data, lastLetter);
+            }
+          })
+        }
       }
     })
   }
@@ -124,7 +134,7 @@ class QueryWord extends Component {
     let isItANoun = false; //default to false; to be checked later
     let actualStringToPush = "";
     //some filler words to pretend anything in this crazy universe could make sense.
-    const fillerWord = ["of", "and", "or"];
+    const fillerWord = ["of", "and"];
     const randomFillerWord = this.generateRandomNumber(fillerWord); //self-explanatory?
     //similar to above.
     finalWord = [...this.state.finalWord];
@@ -164,42 +174,51 @@ class QueryWord extends Component {
   }
 
   render() {
-    if (this.state.finalWord.length === this.props.spreadLettersProp.length) {
-      return (
-        <React.Fragment>
-          <section className="wordListContainer wrapper">
-          <h2>You searched the word:</h2>
-          <h3>{this.props.userInputProp}</h3>
-          <h2>Which <em>clearly</em> stands for:</h2>
-  
-          <ul className="wordChoicesList">
-            {
-              this.state.finalWord.map( (word, index) => {
-                return(
-                  <li key={index}>
-                    {word}
-                  </li>
-                )
-              })
-            }
-            </ul>
-            <div className="queryWordsHandlingButton">
-              <button className="tryAnotherButton" onClick={this.searchAgain}>Try again</button>
-              <button type="submit" className="submitWordButton" onClick={this.handleFirebaseSubmit}>
-                <Link to="/SavedBackronym">
-                  Submit your word
-                </Link>
-              </button>
-            </div>
-          </section>
-        </React.Fragment>
-      )
-    } else {
+    if (this.state.thatsNotAWord) {
       return (
         <section className="wordListContainer wrapper">
-          <h3>Generating Backronym...</h3>
+          <h3>I don't think that's a real word...</h3>
+          <button><Link to="/">Try Again</Link></button>
         </section>
       )
+    } else {
+      if (this.state.finalWord.length === this.props.spreadLettersProp.length) {
+        return (
+          <React.Fragment>
+            <section className="wordListContainer wrapper">
+            <h2>You searched the word:</h2>
+            <h3>{this.props.userInputProp}</h3>
+            <h2>Which <em>clearly</em> stands for:</h2>
+    
+            <ul className="wordChoicesList">
+              {
+                this.state.finalWord.map( (word, index) => {
+                  return(
+                    <li key={index}>
+                      {word}
+                    </li>
+                  )
+                })
+              }
+              </ul>
+              <div className="queryWordsHandlingButton">
+                <button className="tryAnotherButton" onClick={this.searchAgain}>Try again</button>
+                <button type="submit" className="submitWordButton" onClick={this.handleFirebaseSubmit}>
+                  <Link to="/SavedBackronym">
+                    Submit your word
+                  </Link>
+                </button>
+              </div>
+            </section>
+          </React.Fragment>
+        )
+      } else {
+        return (
+          <section className="wordListContainer wrapper">
+            <h3>Generating Backronym...</h3>
+          </section>
+        )
+      }
     }
   }
 }
