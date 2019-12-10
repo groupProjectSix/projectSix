@@ -1,3 +1,4 @@
+@import "_mediaQueries.scss";
 .homepage {
     display: flex;
     flex-direction: column;
@@ -5,6 +6,7 @@
     height: calc(100vh - 250px);
     justify-content: center;
     align-items: center;
+    
 
     .saveInput {
         @include sans;
@@ -22,6 +24,13 @@
             border-bottom-right-radius: 0;
             padding: 10px;
             border-right: 0;
+        } 
+        @include tablet{
+            width:400px;
+        } 
+        @include mobile{
+            width:300px; 
+            font-size: 1.8rem;
         }
     }
     .goButton {
@@ -85,7 +94,14 @@
         font-size: 4rem;
         color: $black;
         width: 500px;
-        margin: 0 auto;
+        margin: 0 auto; 
+        @include tablet{
+            font-size:3rem;
+        } 
+        @include mobile{
+            font-size: 2rem;
+            width:400px;
+        }
     }
     span {
         display: block;
@@ -95,8 +111,16 @@
         font-size: 2rem;
         display: block;
         width: 750px;
-        padding: 25px;
-    }
+        padding: 25px; 
+        @include tablet{
+            width:500px;
+        } 
+        @include mobile{
+            font-size: 1.4rem; 
+            width:400px;
+        }
+    } 
+    
 }
 
 .wordListContainer {
@@ -175,7 +199,7 @@
     height: auto;
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: flex-start;
     flex-wrap: wrap;
     padding-bottom: 200px;
