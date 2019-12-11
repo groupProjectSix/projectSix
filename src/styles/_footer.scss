@@ -4,24 +4,24 @@ footer{
     background-color: $black;
     text-align: center;
     color: $accent1;
-    height: 70px; 
+    height: 100px; 
     position: fixed; 
     left: 0;  
     bottom: 0;  
-    a{
+    padding: 10px 0;
+    a {
         color:white;
         cursor: pointer;
         padding: 10px;
     } 
-    p{
+    p {
         padding-top:10px;
-     
     }  
-    @include tablet{
-        font-size: 1.4rem;
+    @include tablet {
+        font-size: 1.7rem;
     } 
-    @include mobile{
-        font-size:1rem;
+    @include mobile {
+        font-size: 1.5rem;
     }
 
 }

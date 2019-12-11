@@ -6,8 +6,6 @@
     height: calc(100vh - 250px);
     justify-content: center;
     align-items: center;
-    
-
     .saveInput {
         @include sans;
         display: flex;
@@ -16,6 +14,9 @@
         width: 700px;
         position: relative;
         flex-wrap: wrap;
+        @include mobile {
+            width: 100%;
+        }
         input {
             width: 80%;
             border: 2px solid $accent1;
@@ -88,6 +89,9 @@
     text-align: center;
     padding: 25px;
     margin-top: -190px;
+    @include mobile {
+        padding: 0;
+    }
     h1 {
         @include mediumSans;
         font-size: 4rem;
@@ -99,7 +103,7 @@
         } 
         @include mobile{
             font-size: 2rem;
-            width:400px;
+            width: 100%;
         }
     }
     span {
@@ -112,11 +116,12 @@
         width: 750px;
         padding: 25px; 
         @include tablet{
-            width:500px;
+            width:100%;
         } 
         @include mobile{
-            font-size: 1.4rem; 
-            width:400px;
+            font-size: 1.7rem; 
+            width:100%;
+            padding: 20px 5px;
         }
     } 
     
