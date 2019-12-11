@@ -33,7 +33,7 @@ class QueryWord extends Component {
 
   callToApiFirst = (userWord, firstLetter) => {
     axios({
-      url:`https://api.datamuse.com/words`, 
+      url:`http://api.datamuse.com/words`, 
       method: "get", 
       params:{ 
         ml:`${userWord}`,
@@ -91,7 +91,7 @@ class QueryWord extends Component {
   callToApiSecond = (nextLetter, prevWord, isItWordFinal) => {
     return new Promise((resolve, reject) => {
       axios ({
-        url: `https://api.datamuse.com/words`,
+        url: `http://api.datamuse.com/words`,
         method: "get",
         params: {
           lc: `${prevWord}`,
@@ -106,7 +106,7 @@ class QueryWord extends Component {
 
   randomWordApiCall = (nextLetter, isItWordFinal) => {
     axios ({
-      url: `https://api.datamuse.com/words`,
+      url: `http://api.datamuse.com/words`,
       method: "get",
       params: {
         sp: `${nextLetter}*`,
