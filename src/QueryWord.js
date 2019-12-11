@@ -34,7 +34,7 @@ class QueryWord extends Component {
 
   callToApiFirst = (userWord, firstLetter) => {
     axios({
-      url: 'http://proxy.hackeryou.com',
+      url: 'https://proxy.hackeryou.com',
       dataResponse:'json',
       paramsSerializer: function(params) {
         return Qs.stringify(params, {arrayFormat: 'brackets'})
@@ -112,7 +112,7 @@ class QueryWord extends Component {
   callToApiSecond = (nextLetter, prevWord, isItWordFinal) => {
     return new Promise((resolve, reject) => {
       axios({
-        url: 'http://proxy.hackeryou.com',
+        url: 'https://proxy.hackeryou.com',
         dataResponse:'json',
         paramsSerializer: function(params) {
           return Qs.stringify(params, {arrayFormat: 'brackets'})
@@ -147,7 +147,7 @@ class QueryWord extends Component {
 
   randomWordApiCall = (nextLetter, isItWordFinal) => {
     axios({
-      url: 'http://proxy.hackeryou.com',
+      url: 'https://proxy.hackeryou.com',
       dataResponse:'json',
       paramsSerializer: function(params) {
         return Qs.stringify(params, {arrayFormat: 'brackets'})
