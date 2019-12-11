@@ -40,7 +40,7 @@ class QueryWord extends Component {
         return Qs.stringify(params, {arrayFormat: 'brackets'})
       },
       params: {
-        reqUrl: 'http://api.datamuse.com/words',
+        reqUrl: 'https://api.datamuse.com/words',
         params: {
           ml:`${userWord}`,
           sp: `${firstLetter}*`,
@@ -118,7 +118,7 @@ class QueryWord extends Component {
           return Qs.stringify(params, {arrayFormat: 'brackets'})
         },
         params: {
-          reqUrl: 'http://api.datamuse.com/words',
+          reqUrl: 'https://api.datamuse.com/words',
           params: {
             lc: `${prevWord}`,
             sp: `${nextLetter}*`,
@@ -153,7 +153,7 @@ class QueryWord extends Component {
         return Qs.stringify(params, {arrayFormat: 'brackets'})
       },
       params: {
-        reqUrl: 'http://api.datamuse.com/words',
+        reqUrl: 'https://api.datamuse.com/words',
         params: {
           sp: `${nextLetter}*`,
           md: "p"
