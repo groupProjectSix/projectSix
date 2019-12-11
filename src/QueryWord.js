@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import firebase from "./firebase";
 import { BrowserRouter as Router, Link, Route } from "react-router-dom";
+import Qs from 'qs';
 
 class QueryWord extends Component {
   constructor() {
@@ -33,14 +34,34 @@ class QueryWord extends Component {
 
   callToApiFirst = (userWord, firstLetter) => {
     axios({
-      url:`http://api.datamuse.com/words`, 
-      method: "get", 
-      params:{ 
-        ml:`${userWord}`,
-        sp: `${firstLetter}*`,
-        md: "p"
+      url: 'http://proxy.hackeryou.com',
+      dataResponse:'json',
+      paramsSerializer: function(params) {
+        return Qs.stringify(params, {arrayFormat: 'brackets'})
+      },
+      params: {
+        reqUrl: 'http://api.datamuse.com/words',
+        params: {
+          ml:`${userWord}`,
+          sp: `${firstLetter}*`,
+          md: "p"
+        }, 
+        proxyHeaders: {
+          'header_params': 'value'
+        },
+        xmlToJSON: false
       }
-    }).then((data)=>{
+    })
+    // axios({
+    //   url:`http://api.datamuse.com/words`, 
+    //   method: "get", 
+    //   params:{ 
+    //     ml:`${userWord}`,
+    //     sp: `${firstLetter}*`,
+    //     md: "p"
+    //   }
+    // })
+    .then((data)=>{
       if (data.data.length === 0) {
         this.setState({
           thatsNotAWord: true
