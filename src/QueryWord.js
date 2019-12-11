@@ -111,29 +111,68 @@ class QueryWord extends Component {
 
   callToApiSecond = (nextLetter, prevWord, isItWordFinal) => {
     return new Promise((resolve, reject) => {
-      axios ({
-        url: `http://api.datamuse.com/words`,
-        method: "get",
+      axios({
+        url: 'http://proxy.hackeryou.com',
+        dataResponse:'json',
+        paramsSerializer: function(params) {
+          return Qs.stringify(params, {arrayFormat: 'brackets'})
+        },
         params: {
-          lc: `${prevWord}`,
-          sp: `${nextLetter}*`,
-          md: "p"
+          reqUrl: 'http://api.datamuse.com/words',
+          params: {
+            lc: `${prevWord}`,
+            sp: `${nextLetter}*`,
+            md: "p"
+          }, 
+          proxyHeaders: {
+            'header_params': 'value'
+          },
+          xmlToJSON: false
         }
-      }).then((data) => {
+      })
+      // axios ({
+      //   url: `http://api.datamuse.com/words`,
+      //   method: "get",
+      //   params: {
+      //     lc: `${prevWord}`,
+      //     sp: `${nextLetter}*`,
+      //     md: "p"
+      //   }
+      // })
+      .then((data) => {
         resolve(data);
       })
     })
   }
 
   randomWordApiCall = (nextLetter, isItWordFinal) => {
-    axios ({
-      url: `http://api.datamuse.com/words`,
-      method: "get",
+    axios({
+      url: 'http://proxy.hackeryou.com',
+      dataResponse:'json',
+      paramsSerializer: function(params) {
+        return Qs.stringify(params, {arrayFormat: 'brackets'})
+      },
       params: {
-        sp: `${nextLetter}*`,
-        md: "p"
+        reqUrl: 'http://api.datamuse.com/words',
+        params: {
+          sp: `${nextLetter}*`,
+          md: "p"
+        }, 
+        proxyHeaders: {
+          'header_params': 'value'
+        },
+        xmlToJSON: false
       }
-    }).then((data) => {
+    })
+    // axios ({
+    //   url: `http://api.datamuse.com/words`,
+    //   method: "get",
+    //   params: {
+    //     sp: `${nextLetter}*`,
+    //     md: "p"
+    //   }
+    // })
+    .then((data) => {
       this.handleApiData(data, isItWordFinal);
     })
   }
