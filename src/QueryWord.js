@@ -33,7 +33,7 @@ class QueryWord extends Component {
 
   callToApiFirst = (userWord, firstLetter) => {
     axios({
-      url:`https://api.datamuse.com/words`, 
+      url:`http://api.datamuse.com/words`, 
       method: "get", 
       params:{ 
         ml:`${userWord}`,
@@ -91,7 +91,7 @@ class QueryWord extends Component {
   callToApiSecond = (nextLetter, prevWord, isItWordFinal) => {
     return new Promise((resolve, reject) => {
       axios ({
-        url: `https://api.datamuse.com/words`,
+        url: `http://api.datamuse.com/words`,
         method: "get",
         params: {
           lc: `${prevWord}`,
@@ -106,7 +106,7 @@ class QueryWord extends Component {
 
   randomWordApiCall = (nextLetter, isItWordFinal) => {
     axios ({
-      url: `https://api.datamuse.com/words`,
+      url: `http://api.datamuse.com/words`,
       method: "get",
       params: {
         sp: `${nextLetter}*`,
@@ -178,7 +178,7 @@ class QueryWord extends Component {
       return (
         <section className="wordListContainer wrapper">
           <h3>I don't think that's a real word...</h3>
-          <button><Link to="/">Try Again</Link></button>
+          <button><Link to="/projectSix">Try Again</Link></button>
         </section>
       )
     } else {
@@ -203,7 +203,7 @@ class QueryWord extends Component {
               </ul>
               <div className="queryWordsHandlingButton">
                 <button className="tryAnotherButton" onClick={this.searchAgain}>Try again</button>
-                  <Link className="submitWordLink" onClick={this.handleFirebaseSubmit} to="/SavedBackronym">
+                  <Link className="submitWordLink" onClick={this.handleFirebaseSubmit} to="/projectSix/SavedBackronym">
                     Submit your word
                   </Link>
               </div>
