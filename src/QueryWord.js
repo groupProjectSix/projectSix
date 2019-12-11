@@ -268,23 +268,5 @@ class QueryWord extends Component {
     }
   }
 }
+
 export default QueryWord;
-
-// base url https://api.datamuse.com/words
-
-// params:
-// rel_bga:
-// sp:
-// rel_bga would be the word we want the call to relate TO
-// sp: is how we want the RESPONSE to be spelled like
-
-// const backronymsToBe = [];
-// const data = snapshot.val();
-
-// for (let key in data) {
-//   backronymsToBe.push(data[key]);
-// }
-
-// this.setState({
-//   savedBackronyms: backronymsToBe,
-// })

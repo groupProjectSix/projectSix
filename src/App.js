@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-// import firebase from "./firebase";
 import "./App.scss";
 import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 import Main from "./Main";

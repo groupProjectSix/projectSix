@@ -12,8 +12,6 @@ class Footer extends Component{
                     <a target="_blank" href={'http://wadebutler.ca/'}>Wade Butler</a>
                     <a target="_blank" href={'http://www.bethancdavies.com'}>Bethan Davies</a>
                 </p>
-                
-                
             </footer>
         )
     }

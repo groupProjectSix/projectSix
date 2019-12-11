@@ -17,7 +17,6 @@ class Main extends Component {
     }
 
     saveUserInput = event => {
-        console.log(event.target);
         const eventHappening = event.target.value;
         this.setState({
             showErrorMessage: false,
@@ -32,7 +31,6 @@ class Main extends Component {
                 this.setState({
                     showErrorMessage: true,
                 })
-                console.log("Enter at least 3 characters");
             };
         });
     }; 

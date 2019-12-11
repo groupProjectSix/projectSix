@@ -1,4 +1,5 @@
 @import "_mediaQueries.scss";
+
 .homepage {
     display: flex;
     flex-direction: column;
@@ -6,6 +7,7 @@
     height: calc(100vh - 250px);
     justify-content: center;
     align-items: center;
+
     .saveInput {
         @include sans;
         display: flex;
@@ -14,9 +16,11 @@
         width: 700px;
         position: relative;
         flex-wrap: wrap;
+
         @include mobile {
             width: 100%;
         }
+
         input {
             width: 80%;
             border: 2px solid $accent1;
@@ -26,14 +30,17 @@
             padding: 10px;
             border-right: 0;
         } 
+
         @include tablet{
             width:400px;
         } 
+
         @include mobile{
             width:300px; 
             font-size: 1.8rem;
         }
     }
+
     .goButton {
         @include sans;
         width: 20%;
@@ -56,15 +63,16 @@
         }
     }
 }
+
 .backronyms{
     transition: all 0.8s; 
 
     &:hover{
-    -moz-transform: scale(-1, 1);
-    -webkit-transform: scale(-1, 1);
-    -o-transform: scale(-1, 1);
-    -ms-transform: scale(-1, 1);
-    transform: scale(-1, 1);
+        -moz-transform: scale(-1, 1);
+        -webkit-transform: scale(-1, 1);
+        -o-transform: scale(-1, 1);
+        -ms-transform: scale(-1, 1);
+        transform: scale(-1, 1);
     }
 }
 
@@ -77,9 +85,11 @@
     background: transparent;
     border-radius: 5px;
     padding: 25px;
+
     li {
         padding-right: 5px;
     } 
+
     @include mobile{
         padding:10px;
     }
@@ -89,36 +99,44 @@
     text-align: center;
     padding: 25px;
     margin-top: -190px;
+
     @include mobile {
         padding: 0;
     }
+
     h1 {
         @include mediumSans;
         font-size: 4rem;
         color: $black;
         width: 500px;
         margin: 0 auto; 
-        @include tablet{
+
+        @include tablet {
             font-size:3rem;
         } 
-        @include mobile{
+
+        @include mobile {
             font-size: 2rem;
             width: 100%;
         }
     }
+
     span {
         display: block;
     }
+
     p {
         @include sans;
         font-size: 2rem;
         display: block;
         width: 750px;
         padding: 25px; 
-        @include tablet{
+
+        @include tablet {
             width:100%;
         } 
-        @include mobile{
+
+        @include mobile {
             font-size: 1.7rem; 
             width:100%;
             padding: 20px 5px;
@@ -129,13 +147,15 @@
 
 .wordListContainer {
     text-align: center;
+
     h2 {
         @include sans;
         font-size: 4rem; 
-    @include mobile{
-    font-size:3rem;
-    padding: 20px 0;
-    }
+
+        @include mobile {
+        font-size:3rem;
+        padding: 20px 0;
+        }
     } 
    
     h3 {
@@ -143,7 +163,8 @@
         font-size: 5rem;
         text-transform: uppercase;
         padding: 25px; 
-        @include mobile{
+
+        @include mobile {
             font-size: 3rem;
             padding: 0;
         }
@@ -153,10 +174,10 @@
 .queryWordsHandlingButton {
     display: flex;
     justify-content: center;
-@include mobile{
-    padding-top:20px;
-}
-   
+
+    @include mobile {
+        padding-top:20px;
+    }
     
     button {
         @include mediumSans;
@@ -221,9 +242,11 @@
     flex-wrap: wrap;
     padding-bottom: 200px;
     margin: 0 auto; 
-    @include mobile{
+
+    @include mobile {
         padding-bottom: 20px;
     }
+
     .resultHeader {
         width: 500px;
         background-color: black;
@@ -231,23 +254,28 @@
         border-top-left-radius: 5px;
         border-top-right-radius: 5px;
         margin: 20px; 
-        @include mobile{
+        
+        @include mobile {
             margin:10px;
         }
+
         h3 {
             color: white;
             padding: 10px 0;
             text-transform: uppercase;
-            @include mobile{
+
+            @include mobile {
                 font-size: 2rem;
             }
         }
     }
+
     .wordsContainer {
         background-color: white;
         border: 1px solid black;
         padding: 10px; 
-        @include mobile{
+
+        @include mobile {
             font-size: 1.8rem;
         }
     }
@@ -257,14 +285,17 @@
     width: 100%;
     margin-bottom: 100px;
     text-align: center; 
-    @include tablet{
+
+    @include tablet {
         margin-bottom: 20px;
     } 
+
     h2 {
         @include sans;
         font-size: 4rem;
         position: relative;
         display: inline-block;
+
         &::after {
             content: "";
             width: 100%;
@@ -274,7 +305,8 @@
             bottom: -20px;
             left: 0;
         } 
-        @include tablet{
+
+        @include tablet {
             font-size:3rem;
             
         }
