@@ -267,12 +267,6 @@ a {
   margin: 0 auto;
 }
 
-@media (max-width: 400px) {
-  .wrapper {
-    max-width: 70%;
-  }
-}
-
 header {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -419,10 +413,8 @@ nav ul .navLink a:hover, nav ul .navLink a:focus {
   transition: all 0.8s ease;
 }
 
-.homepage .goButton a:hover {
+.homepage .goButton a:hover, .homepage .goButton a:focus {
   color: #ffffff;
-  -webkit-transform: scale(-1, 1);
-  transform: scale(-1, 1);
 }
 
 .backronyms {
@@ -458,6 +450,12 @@ nav ul .navLink a:hover, nav ul .navLink a:focus {
 
 .wordChoicesList li {
   padding-right: 5px;
+}
+
+@media (max-width: 400px) {
+  .wordChoicesList {
+    padding: 10px;
+  }
 }
 
 .mainTextContainer {
@@ -527,6 +525,13 @@ nav ul .navLink a:hover, nav ul .navLink a:focus {
   font-size: 4rem;
 }
 
+@media (max-width: 400px) {
+  .wordListContainer h2 {
+    font-size: 3rem;
+    padding: 20px 0;
+  }
+}
+
 .wordListContainer h3 {
   font-family: 'Montserrat', sans-serif;
   font-weight: 900;
@@ -536,6 +541,13 @@ nav ul .navLink a:hover, nav ul .navLink a:focus {
   padding: 25px;
 }
 
+@media (max-width: 400px) {
+  .wordListContainer h3 {
+    font-size: 3rem;
+    padding: 0;
+  }
+}
+
 .queryWordsHandlingButton {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -543,9 +555,12 @@ nav ul .navLink a:hover, nav ul .navLink a:focus {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+}
+
+@media (max-width: 400px) {
+  .queryWordsHandlingButton {
+    padding-top: 20px;
+  }
 }
 
 .queryWordsHandlingButton button {
@@ -626,6 +641,12 @@ nav ul .navLink a:hover, nav ul .navLink a:focus {
   margin: 0 auto;
 }
 
+@media (max-width: 400px) {
+  .resultsContainer {
+    padding-bottom: 20px;
+  }
+}
+
 .resultsContainer .resultHeader {
   width: 500px;
   background-color: black;
@@ -635,10 +656,22 @@ nav ul .navLink a:hover, nav ul .navLink a:focus {
   margin: 20px;
 }
 
+@media (max-width: 400px) {
+  .resultsContainer .resultHeader {
+    margin: 10px;
+  }
+}
+
 .resultsContainer .resultHeader h3 {
   color: white;
   padding: 10px 0;
   text-transform: uppercase;
+}
+
+@media (max-width: 400px) {
+  .resultsContainer .resultHeader h3 {
+    font-size: 2rem;
+  }
 }
 
 .resultsContainer .wordsContainer {
@@ -647,10 +680,22 @@ nav ul .navLink a:hover, nav ul .navLink a:focus {
   padding: 10px;
 }
 
+@media (max-width: 400px) {
+  .resultsContainer .wordsContainer {
+    font-size: 1.8rem;
+  }
+}
+
 .hallOfLiteracyFameHeader {
   width: 100%;
   margin-bottom: 100px;
   text-align: center;
+}
+
+@media (max-width: 1000px) {
+  .hallOfLiteracyFameHeader {
+    margin-bottom: 20px;
+  }
 }
 
 .hallOfLiteracyFameHeader h2 {
@@ -670,6 +715,12 @@ nav ul .navLink a:hover, nav ul .navLink a:focus {
   position: absolute;
   bottom: -20px;
   left: 0;
+}
+
+@media (max-width: 1000px) {
+  .hallOfLiteracyFameHeader h2 {
+    font-size: 3rem;
+  }
 }
 
 footer {
@@ -696,6 +747,12 @@ footer p {
 @media (max-width: 1000px) {
   footer {
     font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 400px) {
+  footer {
+    font-size: 1rem;
   }
 }
 /*# sourceMappingURL=App.css.map */
