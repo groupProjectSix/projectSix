@@ -1,3 +1,4 @@
+@import "_mediaQueries.scss";
 footer{
     width: 100%;
     background-color: $black;
@@ -5,7 +6,7 @@ footer{
     color: $accent1;
     height: 70px; 
     position: fixed; 
-    left: 0;
+    left: 0;  
     bottom: 0;  
     a{
         color:white;
@@ -14,5 +15,10 @@ footer{
     } 
     p{
         padding-top:10px;
+     
+    }  
+    @include tablet{
+        font-size: 1.4rem;
     }
+
 }
