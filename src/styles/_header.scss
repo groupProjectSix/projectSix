@@ -4,20 +4,25 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 20px;
+
     @include mobile {
         padding-bottom: 40px;
     }
+
     .logoContainer {
         width: 150px;
         height: 150px; 
+
         @include tablet {
             width: 75px;
             height: 75px;
         }
+
         @include mobile {
             width: 50px;
             height: 50px;
         }
+
         img {
             object-fit: contain;
             object-position: center;
@@ -25,7 +30,8 @@ header {
             width: 100%;
             transition: all 0.8s ease;
         } 
-        :hover{
+
+        &:hover{
             -moz-transform: scale(-1, 1);
             -webkit-transform: scale(-1, 1);
             -o-transform: scale(-1, 1);
@@ -41,15 +47,18 @@ nav {
         flex-direction: row;
         justify-content: space-evenly;
         align-items: flex-start;
+
         li {
             padding: 0 20px;
         }
+
         .navLink a {
             @include serif;
             background-color: transparent;
             transition: all 0.5s ease;
             border-bottom: 5px solid rgba(129, 0, 59, 0);
             font-size: 1.7rem;
+            
             &:hover, &:focus {
                 border-bottom: 5px solid rgba(129, 0, 59, 1);
             }

@@ -1,5 +1,6 @@
 @import "_mediaQueries.scss";
-footer{
+
+footer {
     width: 100%;
     background-color: $black;
     text-align: center;
@@ -9,17 +10,21 @@ footer{
     left: 0;  
     bottom: 0;  
     padding: 10px 0;
+
     a {
         color:white;
         cursor: pointer;
         padding: 10px;
     } 
+
     p {
         padding-top:10px;
     }  
+
     @include tablet {
         font-size: 1.7rem;
     } 
+    
     @include mobile {
         font-size: 1.5rem;
     }
