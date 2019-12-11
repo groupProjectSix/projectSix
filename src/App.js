@@ -62,7 +62,7 @@ class App extends Component {
               <ul>
                 <li>
                   <div className="navLink">
-                    <Link to="/">
+                    <Link to="/projectSix">
                       Home
                     </Link>
                   </div>
