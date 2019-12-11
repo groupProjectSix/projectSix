@@ -28,8 +28,5 @@ a {
 .wrapper {
     width: 80%;
     margin: 0 auto; 
-    @include mobile{
-        max-width: 70%;
-    }
     
 }
