@@ -178,7 +178,7 @@ class QueryWord extends Component {
       return (
         <section className="wordListContainer wrapper">
           <h3>I don't think that's a real word...</h3>
-          <button><Link to="/">Try Again</Link></button>
+          <button><Link to="/projectSix">Try Again</Link></button>
         </section>
       )
     } else {
@@ -203,7 +203,7 @@ class QueryWord extends Component {
               </ul>
               <div className="queryWordsHandlingButton">
                 <button className="tryAnotherButton" onClick={this.searchAgain}>Try again</button>
-                  <Link className="submitWordLink" onClick={this.handleFirebaseSubmit} to="/SavedBackronym">
+                  <Link className="submitWordLink" onClick={this.handleFirebaseSubmit} to="/projectSix/SavedBackronym">
                     Submit your word
                   </Link>
               </div>
