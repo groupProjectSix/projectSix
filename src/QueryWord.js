@@ -8,30 +8,30 @@ class QueryWord extends Component {
   constructor() {
     super();
     this.state = {
-      lettersToQuery: [],
-      displayedWords: [],
-      firstWordArray: [],
-      firstSelectedWord: "",
-      restOfWordsArray: [],
-      finalWord: [],
-      thatsNotAWord: false,
+      firstWordArray: [], // array of response from first API call
+      firstSelectedWord: "", // random word from first call
+      restOfWordsArray: [], // array to store API word responses
+      finalWord: [], // array to store generated words
+      thatsNotAWord: false, // error handling on initial submit
     };
   }
-// sends the final word up to firebase, each individual word/object makes an array
-  handleFirebaseSubmit =() => { 
+
+  // sends the final word up to firebase, each individual word/object makes an array
+  handleFirebaseSubmit = () => {
     const dbRef = firebase.database().ref(); 
-  
     dbRef.push({
       entireWord:this.props.userInputProp,
       words:this.state.finalWord + "",
-
     });
   }
 
+  // called to pick random object from given array
   generateRandomNumber = (array) => {
     return(Math.floor(Math.random() * array.length))
   }
 
+  // an API call to kick it off!!
+  // called with props: userInputProp and spreadLettersProp[0] (first letter of word!)
   callToApiFirst = (userWord, firstLetter) => {
     axios({
       url: 'https://proxy.hackeryou.com',
@@ -42,9 +42,9 @@ class QueryWord extends Component {
       params: {
         reqUrl: 'https://api.datamuse.com/words',
         params: {
-          ml:`${userWord}`,
-          sp: `${firstLetter}*`,
-          md: "p"
+          ml:`${userWord}`, // first word is related to the input word
+          sp: `${firstLetter}*`, // spelled with first letter in first position
+          md: "p" // return metadate information as well (to use later)
         }, 
         proxyHeaders: {
           'header_params': 'value'
@@ -52,30 +52,28 @@ class QueryWord extends Component {
         xmlToJSON: false
       }
     })
-    // axios({
-    //   url:`http://api.datamuse.com/words`, 
-    //   method: "get", 
-    //   params:{ 
-    //     ml:`${userWord}`,
-    //     sp: `${firstLetter}*`,
-    //     md: "p"
-    //   }
-    // })
     .then((data)=>{
+      // error handling: if there is no response, datamuse does not recognize the word
       if (data.data.length === 0) {
         this.setState({
-          thatsNotAWord: true
+          thatsNotAWord: true // used to conditionally display error message in render
         })
-      } else {
+      } else { // if the response contains data, then:
+        // set a variable to hold the returned array of word objects
+        // we want to keep the whole object to conserve the metadata tags
         const arrayOfLetterObject = data.data;
         this.setState({
           firstWordArray: arrayOfLetterObject,
         })
       }
     }).then( () => {
+      // first make sure we actually got a return on the last step.
       if (this.state.thatsNotAWord === false) {
+        // pick a random word object from our saved array,
+        // get an actual word from that object
         let randomWordNumber = this.generateRandomNumber(this.state.firstWordArray);
         const firstWord = (this.state.firstWordArray[randomWordNumber].word);
+        // set an array to conserve data format of our 'final word' state
         const arrayForFirstWord = [];
         arrayForFirstWord.push(firstWord)
         this.setState({
@@ -110,6 +108,7 @@ class QueryWord extends Component {
   }
 
   callToApiSecond = (nextLetter, prevWord, isItWordFinal) => {
+    // return a promise to facilitate the async call
     return new Promise((resolve, reject) => {
       axios({
         url: 'https://proxy.hackeryou.com',
@@ -120,7 +119,7 @@ class QueryWord extends Component {
         params: {
           reqUrl: 'https://api.datamuse.com/words',
           params: {
-            lc: `${prevWord}`,
+            lc: `${prevWord}`, // likely follows specified word
             sp: `${nextLetter}*`,
             md: "p"
           }, 
@@ -130,21 +129,13 @@ class QueryWord extends Component {
           xmlToJSON: false
         }
       })
-      // axios ({
-      //   url: `http://api.datamuse.com/words`,
-      //   method: "get",
-      //   params: {
-      //     lc: `${prevWord}`,
-      //     sp: `${nextLetter}*`,
-      //     md: "p"
-      //   }
-      // })
       .then((data) => {
         resolve(data);
       })
     })
   }
 
+  // just to call a word that starts with a certain letter if all else fails!
   randomWordApiCall = (nextLetter, isItWordFinal) => {
     axios({
       url: 'https://proxy.hackeryou.com',
@@ -164,15 +155,8 @@ class QueryWord extends Component {
         xmlToJSON: false
       }
     })
-    // axios ({
-    //   url: `http://api.datamuse.com/words`,
-    //   method: "get",
-    //   params: {
-    //     sp: `${nextLetter}*`,
-    //     md: "p"
-    //   }
-    // })
     .then((data) => {
+      // call handle method on returned array
       this.handleApiData(data, isItWordFinal);
     })
   }
@@ -194,6 +178,7 @@ class QueryWord extends Component {
     let isItANoun = false; //default to false; to be checked later
     let actualStringToPush = "";
     //some filler words to pretend anything in this crazy universe could make sense.
+    // and make the generated 'backronym' read like a sentence/sentence fragment
     const fillerWord = ["of", "and"];
     const randomFillerWord = this.generateRandomNumber(fillerWord); //self-explanatory?
     //similar to above.
@@ -213,7 +198,7 @@ class QueryWord extends Component {
           isItANoun = true;
         }
       }
-      if (isItANoun) { // IS IT A NOUN, DATAMUSE?! IT MIGHT NOT BE
+      if (isItANoun) { // IS IT A NOUN, DATAMUSE?! (it might not be)
         actualStringToPush = `${wordToPush.word} ${fillerWord[randomFillerWord]}`
       } else {
         actualStringToPush = `${wordToPush.word}`
@@ -225,23 +210,26 @@ class QueryWord extends Component {
     });
   }
 
+  // call the first api call on mount! kick the whole party off!
   componentDidMount() {
     this.callToApiFirst(this.props.userInputProp, this.props.spreadLettersProp[0]);
   }
 
+  // in case the user doesn't like generated word, allow them to retry
   searchAgain = () => {
   this.callToApiFirst(this.props.userInputProp, this.props.spreadLettersProp[0]);
   }
 
   render() {
+    // first make sure we haven't gotten our "not a word" error.
     if (this.state.thatsNotAWord) {
       return (
         <section className="wordListContainer wrapper">
           <h3>I don't think that's a real word...</h3>
-          <button><Link to="/projectSix">Try Again</Link></button>
+          <Link to="/projectSix">Try Again</Link>
         </section>
       )
-    } else {
+    } else { // then check if all of our calls have resolved and render results!
       if (this.state.finalWord.length === this.props.spreadLettersProp.length) {
         return (
           <React.Fragment>
@@ -270,7 +258,7 @@ class QueryWord extends Component {
             </section>
           </React.Fragment>
         )
-      } else {
+      } else { //if not all calls have resolved, display a loading message.
         return (
           <section className="wordListContainer wrapper">
             <h3>Generating Backronym...</h3>
