@@ -62,14 +62,14 @@ class App extends Component {
               <ul>
                 <li>
                   <div className="navLink">
-                    <Link to="/">
+                    <Link to="/projectSix">
                       Home
                     </Link>
                   </div>
                 </li>
                 <li>
                   <div className="navLink">
-                    <Link to="/SavedBackronym">
+                    <Link to="/projectSix/SavedBackronym">
                     Wall Of Literacy Fame
                     </Link>
                   </div>
@@ -78,11 +78,11 @@ class App extends Component {
             </nav>
 
           </header>
-          <Route exact path="/" render={() => { return <Main lettersToBeSpreadProp={this.lettersToBeSpread} QueryWordResultsProp={this.QueryWordResults}/>}} />
+          <Route exact path="/projectSix" render={() => { return <Main lettersToBeSpreadProp={this.lettersToBeSpread} QueryWordResultsProp={this.QueryWordResults}/>}} />
 
-          <Route exact path="/search" render={() => { return <QueryWord userInputProp={this.state.userInput} spreadLettersProp={this.state.spreadLetters} /> }} />
+          <Route exact path="/projectSix/search" render={() => { return <QueryWord userInputProp={this.state.userInput} spreadLettersProp={this.state.spreadLetters} /> }} />
 
-          <Route exact path="/SavedBackronym" render={() => { return <SavedBackronym /> }} />  
+          <Route exact path="/projectSix/SavedBackronym" render={() => { return <SavedBackronym /> }} />  
           <Route  path="*" render={() => { return <Footer />}} />
         
         </React.Fragment> 

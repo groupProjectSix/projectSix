@@ -60,7 +60,7 @@ class Main extends Component {
                             <input type="text" placeholder="type here" id="wordInput" maxLength="6" onChange={this.saveUserInput} />
 
                             <button tabIndex="-1" className="goButton" onClick={this.preventDefaultFunction}>
-                            {this.state.showErrorMessage === true ? <span onClick={this.displayErrorMessage}>Go</span> : <Link to="/search">Go</Link>}
+                            {this.state.showErrorMessage === true ? <span onClick={this.displayErrorMessage}>Go</span> : <Link to="/projectSix/search">Go</Link>}
                             </button>
                             
                         {this.state.displayError ? <span className="characterLengthError">Please enter a word with at least three letters but no more than six.</span> : null}
